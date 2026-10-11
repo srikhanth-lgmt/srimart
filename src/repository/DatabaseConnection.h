@@ -85,11 +85,18 @@ public:
         }
         db_path_ = db_path;
         if (sqlite3_open(db_path_.c_str(), &db_) != SQLITE_OK) {
-            std::string err = sqlite3_errmsg(db_);
+            std::string err = db_ ? sqlite3_errmsg(db_) : "SQLite could not allocate a connection";
+            if (db_) { sqlite3_close(db_); db_ = nullptr; }
             throw std::runtime_error("Failed to open SQLite database: " + err);
         }
         // Enable foreign keys and WAL mode for high performance
-        sqlite3_exec(db_, "PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;", nullptr, nullptr, nullptr);
+        char* err_msg = nullptr;
+        if (sqlite3_exec(db_, "PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;", nullptr, nullptr, &err_msg) != SQLITE_OK) {
+            const std::string err = err_msg ? err_msg : sqlite3_errmsg(db_);
+            sqlite3_free(err_msg);
+            sqlite3_close(db_); db_ = nullptr;
+            throw std::runtime_error("Failed to configure SQLite database: " + err);
+        }
         spdlog::info("Database initialized with SQLite at: {}", db_path_);
     }
 

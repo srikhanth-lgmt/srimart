@@ -27,8 +27,6 @@ add_executable(sudharshanmart_tests
 
 target_include_directories(sudharshanmart_tests PRIVATE
     ${PROJECT_SOURCE_DIR}/src
-    ${SQLite3_INCLUDE_DIRS}
-    ${CURL_INCLUDE_DIRS}
 )
 
 target_link_libraries(sudharshanmart_tests PRIVATE
@@ -37,9 +35,9 @@ target_link_libraries(sudharshanmart_tests PRIVATE
     GTest::gmock
     Drogon::Drogon
     nlohmann_json::nlohmann_json
-    libsodium::libsodium
+    unofficial-sodium::sodium
     spdlog::spdlog
-    ${SQLite3_LIBRARIES}
+    unofficial::sqlite3::sqlite3
     CURL::libcurl
 )
 

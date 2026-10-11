@@ -14,7 +14,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Install System Dependencies
+    - name: Install vcpkg bootstrap dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -24,12 +24,13 @@ jobs:
           clang-15 \
           clang-tidy \
           cppcheck \
-          libsqlite3-dev \
-          libsodium-dev \
-          libcurl4-openssl-dev \
-          libssl-dev \
-          uuid-dev \
-          libgtest-dev
+          curl zip unzip tar pkg-config autoconf automake libtool bison flex
+
+    - name: Bootstrap vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git "$RUNNER_TEMP/vcpkg"
+        "$RUNNER_TEMP/vcpkg/bootstrap-vcpkg.sh" -disableMetrics
+        echo "VCPKG_ROOT=$RUNNER_TEMP/vcpkg" >> "$GITHUB_ENV"
 
     - name: Run Static Analysis (cppcheck)
       run: |
@@ -39,6 +40,8 @@ jobs:
       run: |
         cmake -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_TOOLCHAIN_FILE="$RUNNER_TEMP/vcpkg/scripts/buildsystems/vcpkg.cmake" \
+          -DVCPKG_TARGET_TRIPLET=x64-linux \
           -DENABLE_ASAN=ON
 
     - name: Build Executable and Test Suites

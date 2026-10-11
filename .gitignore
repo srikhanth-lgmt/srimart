@@ -20,6 +20,8 @@ vcpkg_installed/
 
 # Sensitive credentials & environment
 .env
+.env.*
+!.env.example
 config.json
 
 # IDE and OS

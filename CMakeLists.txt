@@ -26,17 +26,15 @@ endif()
 # Find external dependencies via vcpkg / CMake config packages
 find_package(Drogon CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(libsodium CONFIG REQUIRED)
+find_package(unofficial-sodium CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(CURL REQUIRED)
-find_package(SQLite3 REQUIRED)
+find_package(CURL CONFIG REQUIRED)
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(pqxx CONFIG QUIET)
 
 # Project Include Directories
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
-    ${SQLite3_INCLUDE_DIRS}
-    ${CURL_INCLUDE_DIRS}
 )
 
 # Source files for the main backend executable
@@ -54,9 +52,9 @@ add_executable(sudharshanmart ${SRC_FILES})
 target_link_libraries(sudharshanmart PRIVATE
     Drogon::Drogon
     nlohmann_json::nlohmann_json
-    libsodium::libsodium
+    unofficial-sodium::sodium
     spdlog::spdlog
-    ${SQLite3_LIBRARIES}
+    unofficial::sqlite3::sqlite3
     CURL::libcurl
 )
 

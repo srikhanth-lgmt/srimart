@@ -106,6 +106,41 @@ sudharshan/
 
 ## ⚡ Quick Start & Execution
 
+### Local environment configuration
+Copy `.env.example` to `.env` and edit only the values you need. The native server loads `.env` at startup for local development. Variables already provided by your shell or hosting platform take precedence; `.env` only supplies missing values.
+
+Supported variables:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `PORT` | `8080` | HTTP listener port (binds to `0.0.0.0`) |
+| `DB_PATH` | `sudharshanmart.db` | SQLite database file. `.env.example` uses `./data/sudharshanmart.db`. |
+| `AI_CHATBOT_PROVIDER` | `mock` | Chat provider: `mock` or `gemini` |
+| `GEMINI_API_KEY` | empty | Optional server-side key when Gemini is intentionally enabled |
+
+Keep `.env` local; it is ignored by Git and excluded from Docker builds. Do not place secrets in frontend files.
+
+### Render deployment
+Create a Docker Web Service from this repository. Set the start command to the image default and configure a **persistent disk mounted at `/var/data`**. Set these service environment variables:
+
+| Key | Value |
+| --- | --- |
+| `PORT` | `8080` |
+| `DB_PATH` | `/var/data/sudharshanmart.db` |
+| `AI_CHATBOT_PROVIDER` | `mock` |
+
+Add `GEMINI_API_KEY` in Render's environment settings only if Gemini is intentionally enabled and set `AI_CHATBOT_PROVIDER=gemini`. Never upload `.env` to Render. The application applies pending migrations and seeds only once on first database initialization; subsequent starts retain the persistent database. Configure Render's health check path as `/api/v1/health`.
+
+For local Docker, run these commands from the project root (the PowerShell form works in Windows PowerShell):
+
+```powershell
+docker build -t sudharshanmart .
+New-Item -ItemType Directory -Force data
+docker run --rm -p 8080:8080 -e PORT=8080 -e DB_PATH=/var/data/sudharshanmart.db -e AI_CHATBOT_PROVIDER=mock -v "${PWD}/data:/var/data" sudharshanmart
+```
+
+Check `http://localhost:8080/api/v1/health` and `http://localhost:8080/` after startup. Run `docker run` again with the same `data` directory to confirm the database persists.
+
 ### Option 1: Instant Local Runner (Windows / macOS / Linux)
 SudharshanMart includes an interactive standalone runner using Python:
 ```bash

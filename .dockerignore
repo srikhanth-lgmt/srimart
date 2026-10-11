@@ -1,0 +1,7 @@
+.env
+.git
+build
+vcpkg_installed
+*.db
+*.db-wal
+*.db-shm

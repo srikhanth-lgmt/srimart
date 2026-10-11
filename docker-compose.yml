@@ -8,10 +8,11 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
+      - DB_PATH=/var/data/sudharshanmart.db
       - AI_CHATBOT_PROVIDER=mock
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
     volumes:
-      - sudharshanmart_data:/opt/sudharshanmart/data
+      - sudharshanmart_data:/var/data
     restart: unless-stopped
 
 volumes:

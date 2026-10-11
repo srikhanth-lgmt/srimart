@@ -30,6 +30,9 @@ void HealthController::CheckHealth(const drogon::HttpRequestPtr& req,
     health_data["version"] = "1.1.0";
 
     auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(health_data));
+    if (db_status != "UP") {
+        resp->setStatusCode(drogon::k503ServiceUnavailable);
+    }
     callback(resp);
 }
 
