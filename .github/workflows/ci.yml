@@ -24,7 +24,7 @@ jobs:
           clang-15 \
           clang-tidy \
           cppcheck \
-          curl zip unzip tar pkg-config autoconf automake libtool bison flex
+          curl zip unzip tar pkg-config autoconf autoconf-archive automake libtool bison flex
 
     - name: Bootstrap vcpkg
       run: |

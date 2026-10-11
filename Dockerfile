@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         pkg-config \
         ca-certificates \
         autoconf \
+        autoconf-archive \
         automake \
         libtool \
         bison \
