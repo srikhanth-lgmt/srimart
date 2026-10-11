@@ -1,4 +1,5 @@
 #include "controller/AdminController.h"
+#include "dto/UserDto.h"
 
 namespace sudharshan::sudharshanmart {
 

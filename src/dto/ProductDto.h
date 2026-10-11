@@ -53,42 +53,48 @@ public:
         };
     }
 
-    class Builder {
-    public:
-        Builder& SetId(int64_t id) { dto_.id = id; return *this; }
-        Builder& SetSellerId(int64_t seller_id) { dto_.seller_id = seller_id; return *this; }
-        Builder& SetName(std::string name) { dto_.name = std::move(name); return *this; }
-        Builder& SetDescription(std::string desc) { dto_.description = std::move(desc); return *this; }
-        Builder& SetPriceCents(int64_t cents) {
-            dto_.price_cents = cents;
-            dto_.formatted_price = Money(cents).ToFormattedString();
-            return *this;
-        }
-        Builder& SetStockQty(int32_t qty) { dto_.stock_qty = qty; return *this; }
-        Builder& SetCategory(std::string category) { dto_.category = std::move(category); return *this; }
-        Builder& SetImageUrl(std::string url) { dto_.image_url = std::move(url); return *this; }
-        Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
+    // Declared here, defined after the class is complete (see below) so that
+    // Builder may hold ProductResponseDto by value.
+    class Builder;
 
-        [[nodiscard]] ProductResponseDto Build() const {
-            return dto_;
-        }
-    private:
-        ProductResponseDto dto_;
-    };
-
-    static ProductResponseDto FromEntity(const Product& product) {
-        return Builder()
-            .SetId(product.id)
-            .SetSellerId(product.seller_id)
-            .SetName(product.name)
-            .SetDescription(product.description)
-            .SetPriceCents(product.price.GetCents())
-            .SetStockQty(product.stock_qty)
-            .SetCategory(product.category)
-            .SetImageUrl(product.image_url)
-            .SetCreatedAt(product.created_at)
-            .Build();
-    }
+    static ProductResponseDto FromEntity(const Product& product);
 };
+
+class ProductResponseDto::Builder {
+public:
+    Builder& SetId(int64_t id) { dto_.id = id; return *this; }
+    Builder& SetSellerId(int64_t seller_id) { dto_.seller_id = seller_id; return *this; }
+    Builder& SetName(std::string name) { dto_.name = std::move(name); return *this; }
+    Builder& SetDescription(std::string desc) { dto_.description = std::move(desc); return *this; }
+    Builder& SetPriceCents(int64_t cents) {
+        dto_.price_cents = cents;
+        dto_.formatted_price = Money(cents).ToFormattedString();
+        return *this;
+    }
+    Builder& SetStockQty(int32_t qty) { dto_.stock_qty = qty; return *this; }
+    Builder& SetCategory(std::string category) { dto_.category = std::move(category); return *this; }
+    Builder& SetImageUrl(std::string url) { dto_.image_url = std::move(url); return *this; }
+    Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
+
+    [[nodiscard]] ProductResponseDto Build() const {
+        return dto_;
+    }
+private:
+    ProductResponseDto dto_;
+};
+
+inline ProductResponseDto ProductResponseDto::FromEntity(const Product& product) {
+    return Builder()
+        .SetId(product.id)
+        .SetSellerId(product.seller_id)
+        .SetName(product.name)
+        .SetDescription(product.description)
+        .SetPriceCents(product.price.GetCents())
+        .SetStockQty(product.stock_qty)
+        .SetCategory(product.category)
+        .SetImageUrl(product.image_url)
+        .SetCreatedAt(product.created_at)
+        .Build();
+}
 
 } // namespace sudharshan::sudharshanmart

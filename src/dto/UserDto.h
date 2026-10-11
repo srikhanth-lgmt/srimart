@@ -46,32 +46,37 @@ public:
     }
 
     /**
-     * @brief Fluent Builder for UserResponseDto.
+     * @brief Fluent Builder for UserResponseDto. Declared here, defined after
+     * the class is complete (see below) so it may hold UserResponseDto by value.
      */
-    class Builder {
-    public:
-        Builder& SetId(int64_t id) { dto_.id = id; return *this; }
-        Builder& SetName(std::string name) { dto_.name = std::move(name); return *this; }
-        Builder& SetEmail(std::string email) { dto_.email = std::move(email); return *this; }
-        Builder& SetRole(std::string role) { dto_.role = std::move(role); return *this; }
-        Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
+    class Builder;
 
-        [[nodiscard]] UserResponseDto Build() const {
-            return dto_;
-        }
-    private:
-        UserResponseDto dto_;
-    };
-
-    static UserResponseDto FromEntity(const User& user) {
-        return Builder()
-            .SetId(user.id)
-            .SetName(user.name)
-            .SetEmail(user.email)
-            .SetRole(RoleToString(user.role))
-            .SetCreatedAt(user.created_at)
-            .Build();
-    }
+    static UserResponseDto FromEntity(const User& user);
 };
+
+class UserResponseDto::Builder {
+public:
+    Builder& SetId(int64_t id) { dto_.id = id; return *this; }
+    Builder& SetName(std::string name) { dto_.name = std::move(name); return *this; }
+    Builder& SetEmail(std::string email) { dto_.email = std::move(email); return *this; }
+    Builder& SetRole(std::string role) { dto_.role = std::move(role); return *this; }
+    Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
+
+    [[nodiscard]] UserResponseDto Build() const {
+        return dto_;
+    }
+private:
+    UserResponseDto dto_;
+};
+
+inline UserResponseDto UserResponseDto::FromEntity(const User& user) {
+    return Builder()
+        .SetId(user.id)
+        .SetName(user.name)
+        .SetEmail(user.email)
+        .SetRole(RoleToString(user.role))
+        .SetCreatedAt(user.created_at)
+        .Build();
+}
 
 } // namespace sudharshan::sudharshanmart

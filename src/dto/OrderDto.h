@@ -64,49 +64,55 @@ public:
         };
     }
 
-    class Builder {
-    public:
-        Builder& SetId(int64_t id) { dto_.id = id; return *this; }
-        Builder& SetBuyerId(int64_t buyer_id) { dto_.buyer_id = buyer_id; return *this; }
-        Builder& SetStatus(std::string status) { dto_.status = std::move(status); return *this; }
-        Builder& SetTotalCents(int64_t total_cents) {
-            dto_.total_amount_cents = total_cents;
-            dto_.formatted_total = Money(total_cents).ToFormattedString();
-            return *this;
-        }
-        Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
-        Builder& AddItem(const OrderItem& item) {
-            OrderItemResponseDto item_dto;
-            item_dto.id = item.id;
-            item_dto.product_id = item.product_id;
-            item_dto.product_name = item.product_name;
-            item_dto.quantity = item.quantity;
-            item_dto.unit_price_cents = item.unit_price.GetCents();
-            item_dto.formatted_unit_price = item.unit_price.ToFormattedString();
-            dto_.items.push_back(item_dto);
-            return *this;
-        }
+    // Declared here, defined after the class is complete (see below) so that
+    // Builder may hold OrderResponseDto by value.
+    class Builder;
 
-        [[nodiscard]] OrderResponseDto Build() const {
-            return dto_;
-        }
-    private:
-        OrderResponseDto dto_;
-    };
-
-    static OrderResponseDto FromEntity(const Order& order) {
-        Builder b;
-        b.SetId(order.id)
-         .SetBuyerId(order.buyer_id)
-         .SetStatus(OrderStatusToString(order.status))
-         .SetTotalCents(order.total_amount.GetCents())
-         .SetCreatedAt(order.created_at);
-        for (const auto& item : order.items) {
-            b.AddItem(item);
-        }
-        return b.Build();
-    }
+    static OrderResponseDto FromEntity(const Order& order);
 };
+
+class OrderResponseDto::Builder {
+public:
+    Builder& SetId(int64_t id) { dto_.id = id; return *this; }
+    Builder& SetBuyerId(int64_t buyer_id) { dto_.buyer_id = buyer_id; return *this; }
+    Builder& SetStatus(std::string status) { dto_.status = std::move(status); return *this; }
+    Builder& SetTotalCents(int64_t total_cents) {
+        dto_.total_amount_cents = total_cents;
+        dto_.formatted_total = Money(total_cents).ToFormattedString();
+        return *this;
+    }
+    Builder& SetCreatedAt(std::string created_at) { dto_.created_at = std::move(created_at); return *this; }
+    Builder& AddItem(const OrderItem& item) {
+        OrderItemResponseDto item_dto;
+        item_dto.id = item.id;
+        item_dto.product_id = item.product_id;
+        item_dto.product_name = item.product_name;
+        item_dto.quantity = item.quantity;
+        item_dto.unit_price_cents = item.unit_price.GetCents();
+        item_dto.formatted_unit_price = item.unit_price.ToFormattedString();
+        dto_.items.push_back(item_dto);
+        return *this;
+    }
+
+    [[nodiscard]] OrderResponseDto Build() const {
+        return dto_;
+    }
+private:
+    OrderResponseDto dto_;
+};
+
+inline OrderResponseDto OrderResponseDto::FromEntity(const Order& order) {
+    Builder b;
+    b.SetId(order.id)
+     .SetBuyerId(order.buyer_id)
+     .SetStatus(OrderStatusToString(order.status))
+     .SetTotalCents(order.total_amount.GetCents())
+     .SetCreatedAt(order.created_at);
+    for (const auto& item : order.items) {
+        b.AddItem(item);
+    }
+    return b.Build();
+}
 
 /**
  * @brief Seller Sales Dashboard Statistics DTO.
