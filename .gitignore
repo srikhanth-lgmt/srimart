@@ -17,6 +17,7 @@ vcpkg_installed/
 *.db-journal
 *.db-wal
 *.log
+data/
 
 # Sensitive credentials & environment
 .env

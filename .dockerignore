@@ -1,7 +1,24 @@
+# Local environment & secrets (never bake secrets into the image)
 .env
+.env.*
+
+# Version control metadata
 .git
+.gitignore
+
+# Local build output — rebuilt inside the image
 build
 vcpkg_installed
+
+# Local SQLite databases (the container creates its own in DB_PATH)
 *.db
+*.db-journal
 *.db-wal
 *.db-shm
+
+# Non-runtime assets that would only bloat the build context
+*.pdf
+*.md
+.github
+nginx
+systemd
