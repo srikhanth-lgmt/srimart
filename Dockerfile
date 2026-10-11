@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python3 \
         perl \
         file \
+        libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Pin the vcpkg tool + registry to the exact baseline declared in vcpkg.json.
@@ -76,10 +77,11 @@ FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
 # curl is used by the health check; tini reaps children and forwards signals.
-# util-linux (provides setpriv) and libstdc++6 are already present in base.
+# libpq5 provides libpq.so at runtime for the PostgreSQL (Neon) backend.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
         libstdc++6 \
+        libpq5 \
         tini \
         curl \
     && rm -rf /var/lib/apt/lists/* \
@@ -102,6 +104,8 @@ RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \
     && chown -R appuser:appuser /opt/sudharshanmart /var/data
 
 # Runtime defaults; Render overrides PORT and (optionally) DB_PATH.
+# Set DATABASE_URL (e.g. a Neon postgresql:// URI) to switch to PostgreSQL;
+# when unset the service uses the local SQLite file at DB_PATH.
 ENV PORT=8080
 ENV DB_PATH=/var/data/sudharshanmart.db
 ENV AI_CHATBOT_PROVIDER=mock

@@ -1,5 +1,6 @@
 #include "controller/HealthController.h"
 #include "repository/DatabaseConnection.h"
+#include "repository/PostgresConnection.h"
 
 namespace sudharshan::sudharshanmart {
 
@@ -9,14 +10,20 @@ void HealthController::CheckHealth(const drogon::HttpRequestPtr& req,
     std::string db_status = "DOWN";
 
     try {
-        sqlite3* db = DatabaseConnection::GetInstance().GetDb();
-        if (db) {
-            sqlite3_stmt* stmt = nullptr;
-            if (sqlite3_prepare_v2(db, "SELECT 1;", -1, &stmt, nullptr) == SQLITE_OK) {
-                if (sqlite3_step(stmt) == SQLITE_ROW) {
-                    db_status = "UP";
+        if (PostgresConnection::GetInstance().IsInitialized()) {
+            if (PostgresConnection::GetInstance().Ping()) {
+                db_status = "UP";
+            }
+        } else {
+            sqlite3* db = DatabaseConnection::GetInstance().GetDb();
+            if (db) {
+                sqlite3_stmt* stmt = nullptr;
+                if (sqlite3_prepare_v2(db, "SELECT 1;", -1, &stmt, nullptr) == SQLITE_OK) {
+                    if (sqlite3_step(stmt) == SQLITE_ROW) {
+                        db_status = "UP";
+                    }
+                    sqlite3_finalize(stmt);
                 }
-                sqlite3_finalize(stmt);
             }
         }
     } catch (...) {

@@ -30,7 +30,7 @@ find_package(unofficial-sodium CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(CURL CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
-find_package(pqxx CONFIG QUIET)
+find_package(PostgreSQL REQUIRED)
 
 # Project Include Directories
 include_directories(
@@ -56,12 +56,8 @@ target_link_libraries(sudharshanmart PRIVATE
     spdlog::spdlog
     unofficial::sqlite3::sqlite3
     CURL::libcurl
+    PostgreSQL::PostgreSQL
 )
-
-if(pqxx_FOUND)
-    target_link_libraries(sudharshanmart PRIVATE pqxx::pqxx)
-    target_compile_definitions(sudharshanmart PRIVATE HAVE_LIBPQXX=1)
-endif()
 
 # Compile definitions
 target_compile_definitions(sudharshanmart PRIVATE

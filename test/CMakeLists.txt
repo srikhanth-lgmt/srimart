@@ -1,4 +1,5 @@
 find_package(GTest REQUIRED)
+find_package(PostgreSQL REQUIRED)
 include(GoogleTest)
 
 file(GLOB_RECURSE TEST_SRCS
@@ -39,6 +40,7 @@ target_link_libraries(sudharshanmart_tests PRIVATE
     spdlog::spdlog
     unofficial::sqlite3::sqlite3
     CURL::libcurl
+    PostgreSQL::PostgreSQL
 )
 
 gtest_discover_tests(sudharshanmart_tests)

@@ -10,7 +10,6 @@
     "libsodium",
     "spdlog",
     "sqlite3",
-    "libpqxx",
     "gtest",
     "curl"
   ]
