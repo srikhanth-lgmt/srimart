@@ -91,6 +91,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /opt/sudharshanmart
 
+# libpq searches $HOME/.postgresql for optional client certificates. The
+# Ubuntu base image can leave HOME pointing at /root even after the entrypoint
+# drops privileges to appuser, causing Neon connections to fail with EACCES.
+ENV HOME=/opt/sudharshanmart
+
 # Compiled binary and runtime assets.
 COPY --from=builder /app/build/sudharshanmart /opt/sudharshanmart/bin/sudharshanmart
 COPY --from=builder /app/public /opt/sudharshanmart/public
