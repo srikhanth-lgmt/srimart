@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <sstream>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Represents a monetary value safely encapsulated in minor units (cents).
@@ -79,4 +79,4 @@ private:
     int64_t cents_{0};
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

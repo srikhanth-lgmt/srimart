@@ -7,7 +7,7 @@
 #include <mutex>
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief RAII statement wrapper ensuring automatic sqlite3_finalize on scope exit.
@@ -77,7 +77,7 @@ public:
         return instance;
     }
 
-    void Initialize(const std::string& db_path = "sudharshanmart.db") {
+    void Initialize(const std::string& db_path = "srikanthmart.db") {
         std::lock_guard<std::mutex> lock(mutex_);
         if (db_) {
             sqlite3_close(db_);
@@ -118,8 +118,8 @@ public:
 private:
     DatabaseConnection() = default;
     sqlite3* db_{nullptr};
-    std::string db_path_{"sudharshanmart.db"};
+    std::string db_path_{"srikanthmart.db"};
     std::mutex mutex_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -3,7 +3,7 @@
 #include "repository/ICartRepository.h"
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class SqliteCartRepository : public ICartRepository {
 public:
@@ -18,4 +18,4 @@ private:
     DatabaseConnection& db_conn_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

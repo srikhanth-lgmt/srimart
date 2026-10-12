@@ -4,7 +4,7 @@
 #include <string>
 #include "model/Money.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Cart item entity with associated product snapshot.
@@ -23,4 +23,4 @@ struct CartItem {
     std::string product_category;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

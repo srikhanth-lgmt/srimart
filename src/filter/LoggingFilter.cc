@@ -2,7 +2,7 @@
 #include <drogon/utils/Utilities.h>
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void LoggingFilter::doFilter(const drogon::HttpRequestPtr& req,
                              drogon::FilterCallback&& /*fcb*/,
@@ -23,4 +23,4 @@ void LoggingFilter::doFilter(const drogon::HttpRequestPtr& req,
     fccb();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

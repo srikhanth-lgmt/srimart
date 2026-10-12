@@ -4,16 +4,16 @@
 #include "controller/BaseController.h"
 #include "service/CartService.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class CartController : public drogon::HttpController<CartController>, public BaseController {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(CartController::GetCart, "/api/v1/cart", drogon::Get, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(CartController::AddItem, "/api/v1/cart/items", drogon::Post, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(CartController::UpdateQuantity, "/api/v1/cart/items/{1}", drogon::Put, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(CartController::RemoveItem, "/api/v1/cart/items/{1}", drogon::Delete, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(CartController::ClearCart, "/api/v1/cart", drogon::Delete, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
+    ADD_METHOD_TO(CartController::GetCart, "/api/v1/cart", drogon::Get, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(CartController::AddItem, "/api/v1/cart/items", drogon::Post, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(CartController::UpdateQuantity, "/api/v1/cart/items/{1}", drogon::Put, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(CartController::RemoveItem, "/api/v1/cart/items/{1}", drogon::Delete, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(CartController::ClearCart, "/api/v1/cart", drogon::Delete, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
     METHOD_LIST_END
 
     void GetCart(const drogon::HttpRequestPtr& req,
@@ -41,4 +41,4 @@ private:
     static std::shared_ptr<CartService> cart_service_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

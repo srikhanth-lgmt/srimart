@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 namespace {
 constexpr const char* kSelectColumns =
@@ -98,4 +98,4 @@ std::vector<User> PostgresUserRepository::FindAll() {
     return list;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -5,7 +5,7 @@
 #include "repository/IProductRepository.h"
 #include "dto/CartDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Cart Service managing shopping cart state and running totals.
@@ -47,4 +47,4 @@ private:
     std::shared_ptr<IProductRepository> product_repo_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -1,7 +1,7 @@
 #include "filter/CorsFilter.h"
 #include <drogon/HttpResponse.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
                           drogon::FilterCallback&& fcb,
@@ -18,4 +18,4 @@ void CorsFilter::doFilter(const drogon::HttpRequestPtr& req,
     fccb();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

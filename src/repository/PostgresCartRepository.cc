@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::vector<CartItem> PostgresCartRepository::GetCart(int64_t user_id) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -108,4 +108,4 @@ void PostgresCartRepository::ClearCart(int64_t user_id) {
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

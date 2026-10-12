@@ -6,7 +6,7 @@
 #include "repository/IProductRepository.h"
 #include "dto/ReviewDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Review Service managing star ratings and customer feedback.
@@ -33,4 +33,4 @@ private:
     std::shared_ptr<IProductRepository> product_repo_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

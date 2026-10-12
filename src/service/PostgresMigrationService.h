@@ -3,7 +3,7 @@
 #include <string>
 #include "repository/PostgresConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Hand-written PostgreSQL migration runner.
@@ -25,4 +25,4 @@ private:
     bool ApplySqlFile(const std::string& file_path, const std::string& version);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

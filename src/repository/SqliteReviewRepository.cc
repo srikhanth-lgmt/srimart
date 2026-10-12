@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 Review SqliteReviewRepository::CreateReview(const Review& review) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -80,4 +80,4 @@ bool SqliteReviewRepository::HasUserPurchasedProduct(int64_t user_id, int64_t pr
     return sqlite3_step(stmt.Get()) == SQLITE_ROW;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

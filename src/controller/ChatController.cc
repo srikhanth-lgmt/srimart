@@ -1,7 +1,7 @@
 #include "controller/ChatController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<ChatService> ChatController::chat_service_ = nullptr;
 
@@ -26,4 +26,4 @@ void ChatController::Chat(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

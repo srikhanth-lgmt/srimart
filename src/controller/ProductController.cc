@@ -1,7 +1,7 @@
 #include "controller/ProductController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<ProductService> ProductController::product_service_ = nullptr;
 
@@ -138,4 +138,4 @@ void ProductController::GetSellerProducts(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

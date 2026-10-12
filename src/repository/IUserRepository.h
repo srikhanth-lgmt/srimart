@@ -6,7 +6,7 @@
 #include <memory>
 #include "model/User.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Abstract repository interface for User data access.
@@ -39,4 +39,4 @@ public:
     virtual std::vector<User> FindAll() = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

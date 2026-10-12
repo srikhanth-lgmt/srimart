@@ -2,7 +2,7 @@
 #include "repository/DatabaseConnection.h"
 #include "repository/PostgresConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void HealthController::CheckHealth(const drogon::HttpRequestPtr& req,
                                    std::function<void(const drogon::HttpResponsePtr&)>&& callback) {
@@ -39,7 +39,7 @@ void HealthController::CheckHealth(const drogon::HttpRequestPtr& req,
 
     health_data["status"] = (db_status == "UP") ? "UP" : "DEGRADED";
     health_data["db"] = db_status;
-    health_data["app"] = "SudharshanMart";
+    health_data["app"] = "SrikanthMart";
     health_data["version"] = "1.1.0";
 
     auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(health_data));
@@ -49,4 +49,4 @@ void HealthController::CheckHealth(const drogon::HttpRequestPtr& req,
     callback(resp);
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

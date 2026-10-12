@@ -3,7 +3,7 @@
 #include "ai/ChatProvider.h"
 #include <unordered_map>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class MockChatProvider : public ChatProvider {
 public:
@@ -16,4 +16,4 @@ private:
     std::unordered_map<std::string, std::string> faq_db_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

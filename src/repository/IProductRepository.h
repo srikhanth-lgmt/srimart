@@ -6,7 +6,7 @@
 #include <memory>
 #include "model/Product.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Abstract repository interface for Product data access.
@@ -46,4 +46,4 @@ public:
     virtual bool DeleteProduct(int64_t id) = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

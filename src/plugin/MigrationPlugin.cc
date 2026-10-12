@@ -1,7 +1,7 @@
 #include "plugin/MigrationPlugin.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void MigrationPlugin::initAndStart(const Json::Value& config) {
     std::string migrations_dir = "db/migrations";
@@ -23,4 +23,4 @@ void MigrationPlugin::shutdown() {
     // No-op
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

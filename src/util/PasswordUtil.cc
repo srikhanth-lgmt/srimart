@@ -4,7 +4,7 @@
 #include <cstring>
 #include <iostream>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void PasswordUtil::Initialize() {
     static bool initialized = false;
@@ -44,4 +44,4 @@ bool PasswordUtil::VerifyPassword(const std::string& plain_password, const std::
     return false;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

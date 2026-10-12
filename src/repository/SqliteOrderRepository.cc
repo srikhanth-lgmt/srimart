@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 Order SqliteOrderRepository::CreateOrder(int64_t buyer_id, const std::vector<CartItem>& items, int64_t total_amount_cents) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -262,4 +262,4 @@ void SqliteOrderRepository::PopulateOrderItems(Order& order) {
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

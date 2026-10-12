@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Abstract AI Chat provider interface.
@@ -21,4 +21,4 @@ public:
                                  const std::string& context) = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

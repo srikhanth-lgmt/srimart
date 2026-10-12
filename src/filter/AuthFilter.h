@@ -3,7 +3,7 @@
 #include <drogon/HttpFilter.h>
 #include "dto/ApiResponse.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief AuthFilter validating Drogon server-side session for protected endpoints.
@@ -15,4 +15,4 @@ public:
                   drogon::FilterChainCallback&& fccb) override;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

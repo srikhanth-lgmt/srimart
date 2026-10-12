@@ -2,10 +2,10 @@
 #include "util/ValidationUtil.h"
 #include "exception/AppException.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 TEST(ValidationTest, ValidatesEmailsCorrectly) {
-    EXPECT_NO_THROW(ValidationUtil::ValidateEmail("buyer@sudharshanmart.com"));
+    EXPECT_NO_THROW(ValidationUtil::ValidateEmail("buyer@srikanthmart.com"));
     EXPECT_NO_THROW(ValidationUtil::ValidateEmail("admin@example.org"));
     EXPECT_THROW(ValidationUtil::ValidateEmail("invalid-email"), ValidationException);
     EXPECT_THROW(ValidationUtil::ValidateEmail(""), ValidationException);

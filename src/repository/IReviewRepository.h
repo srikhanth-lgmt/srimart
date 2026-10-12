@@ -4,7 +4,7 @@
 #include <memory>
 #include "model/Review.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class IReviewRepository {
 public:
@@ -35,4 +35,4 @@ public:
     virtual void RemoveFromWishlist(int64_t user_id, int64_t product_id) = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

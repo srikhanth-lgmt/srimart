@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 static size_t CurlWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     size_t total = size * nmemb;
@@ -27,14 +27,14 @@ std::string GeminiChatProvider::GetReply(const std::string& user_message,
                                          const std::string& /*context*/) {
     if (api_key_.empty()) {
         // Degraded fallback when API key is not configured in environment
-        return "SudharshanMart AI Assistant (Degraded mode): Our live AI connection is offline, but I can still assist with store policies, orders, shipping, and product catalog inquiries!";
+        return "SrikanthMart AI Assistant (Degraded mode): Our live AI connection is offline, but I can still assist with store policies, orders, shipping, and product catalog inquiries!";
     }
 
     // Fixed server-side prompt template restricting scope to marketplace domain
     std::string system_prompt =
-        "You are the intelligent customer service AI for 'SudharshanMart', a native C++ multi-seller e-commerce marketplace founded by Sudharshan. "
+        "You are the intelligent customer service AI for 'SrikanthMart', a native C++ multi-seller e-commerce marketplace founded by Srikanth. "
         "Strict rule: You only answer inquiries concerning products, sellers, orders, shipping, returns, cart, checkout, or marketplace platform features. "
-        "Decline questions unrelated to shopping or SudharshanMart politely. Be helpful, concise, and professional.";
+        "Decline questions unrelated to shopping or SrikanthMart politely. Be helpful, concise, and professional.";
 
     nlohmann::json payload;
     payload["contents"] = nlohmann::json::array({
@@ -51,7 +51,7 @@ std::string GeminiChatProvider::GetReply(const std::string& user_message,
 
     CURL* curl = curl_easy_init();
     if (!curl) {
-        return "SudharshanMart AI: Temporary network issue. Please ask again in a moment.";
+        return "SrikanthMart AI: Temporary network issue. Please ask again in a moment.";
     }
 
     std::string response_buffer;
@@ -75,7 +75,7 @@ std::string GeminiChatProvider::GetReply(const std::string& user_message,
 
     if (res != CURLE_OK || http_code != 200) {
         spdlog::warn("Gemini API call failed with code {} (curl code {}). Serving degraded fallback response.", http_code, static_cast<int>(res));
-        return "SudharshanMart Assistant: Our AI engine is experiencing high load. You can browse our catalog, check your cart, or track shipments directly in your dashboard.";
+        return "SrikanthMart Assistant: Our AI engine is experiencing high load. You can browse our catalog, check your cart, or track shipments directly in your dashboard.";
     }
 
     try {
@@ -91,7 +91,7 @@ std::string GeminiChatProvider::GetReply(const std::string& user_message,
         // Fallback on JSON parse error
     }
 
-    return "SudharshanMart Assistant: Thank you for asking. Our team is always here to help you shop seamlessly!";
+    return "SrikanthMart Assistant: Thank you for asking. Our team is always here to help you shop seamlessly!";
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

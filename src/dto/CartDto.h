@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include "model/CartItem.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct AddToCartRequestDto {
     int64_t product_id{0};
@@ -100,4 +100,4 @@ public:
     };
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

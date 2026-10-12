@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(sudharshanmart VERSION 1.1.0 LANGUAGES CXX)
+project(srikanthmart VERSION 1.1.0 LANGUAGES CXX)
 
 # Require C++20 standard
 set(CMAKE_CXX_STANDARD 20)
@@ -46,10 +46,10 @@ file(GLOB_RECURSE SRC_FILES
 # Exclude any test sources if present in src
 list(FILTER SRC_FILES EXCLUDE REGEX "test/.*")
 
-# Main Executable: sudharshanmart
-add_executable(sudharshanmart ${SRC_FILES})
+# Main Executable: srikanthmart
+add_executable(srikanthmart ${SRC_FILES})
 
-target_link_libraries(sudharshanmart PRIVATE
+target_link_libraries(srikanthmart PRIVATE
     Drogon::Drogon
     nlohmann_json::nlohmann_json
     unofficial-sodium::sodium
@@ -60,8 +60,8 @@ target_link_libraries(sudharshanmart PRIVATE
 )
 
 # Compile definitions
-target_compile_definitions(sudharshanmart PRIVATE
-    SUDHARSHANMART_VERSION="${PROJECT_VERSION}"
+target_compile_definitions(srikanthmart PRIVATE
+    SRIKANTHMART_VERSION="${PROJECT_VERSION}"
     STATIC_PATH="${PROJECT_SOURCE_DIR}/public"
 )
 

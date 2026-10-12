@@ -3,7 +3,7 @@
 #include "repository/IUserRepository.h"
 #include "repository/PostgresConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class PostgresUserRepository : public IUserRepository {
 public:
@@ -19,4 +19,4 @@ private:
     PostgresConnection& db_conn_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

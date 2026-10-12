@@ -4,7 +4,7 @@
 #include <vector>
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Hand-written database migration runner.
@@ -31,4 +31,4 @@ private:
     void ApplySqlFile(const std::string& file_path);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

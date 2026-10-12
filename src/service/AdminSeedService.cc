@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cctype>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void SeedAdminFromEnvironment(const std::shared_ptr<IUserRepository>& users, bool reset_existing) {
     std::string email = GetEnvironmentValue("ADMIN_EMAIL", "");
@@ -29,7 +29,7 @@ void SeedAdminFromEnvironment(const std::shared_ptr<IUserRepository>& users, boo
     }
 
     User admin;
-    admin.name = GetEnvironmentValue("ADMIN_NAME", "SudharsanMart Administrator");
+    admin.name = GetEnvironmentValue("ADMIN_NAME", "SrikanthMart Administrator");
     ValidationUtil::ValidateNonEmpty(admin.name, "ADMIN_NAME", "Admin name is required");
     admin.email = email;
     admin.password_hash = PasswordUtil::HashPassword(password);

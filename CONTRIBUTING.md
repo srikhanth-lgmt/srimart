@@ -1,6 +1,6 @@
-# Contributing to SudharshanMart
+# Contributing to SrikanthMart
 
-Welcome to **SudharshanMart**! This guide outlines the exact setup steps to build and run the native C++20 project.
+Welcome to **SrikanthMart**! This guide outlines the exact setup steps to build and run the native C++20 project.
 
 ## Prerequisites
 - C++20 compliant compiler: GCC 12+, Clang 15+, or MSVC 2022+
@@ -15,8 +15,8 @@ Welcome to **SudharshanMart**! This guide outlines the exact setup steps to buil
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/sudharshan/sudharshanmart.git
-cd sudharshanmart
+git clone https://github.com/srikanth/srikanthmart.git
+cd srikanthmart
 ```
 
 ### 2. Install Dependencies via vcpkg
@@ -44,7 +44,7 @@ cd build && ctest --output-on-failure
 
 ### 6. Run the Application
 ```bash
-./build/sudharshanmart
+./build/srikanthmart
 ```
 The server will boot, run database migrations automatically, and serve on `http://localhost:8080`.
 

@@ -1,5 +1,5 @@
 -- V1__init_schema.sql
--- Base schema for SudharshanMart (PostgreSQL 14+ / Neon compatible)
+-- Base schema for SrikanthMart (PostgreSQL 14+ / Neon compatible)
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,

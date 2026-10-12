@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::vector<CartItem> SqliteCartRepository::GetCart(int64_t user_id) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -128,4 +128,4 @@ void SqliteCartRepository::ClearCart(int64_t user_id) {
     sqlite3_step(stmt.Get());
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

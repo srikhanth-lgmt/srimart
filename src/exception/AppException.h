@@ -5,7 +5,7 @@
 #include <optional>
 #include <drogon/drogon.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Base application exception with error code, message, and HTTP status.
@@ -70,4 +70,4 @@ public:
         : AppException("INTERNAL_SERVER_ERROR", std::move(message), drogon::k500InternalServerError) {}
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -5,7 +5,7 @@
 #include "repository/IUserRepository.h"
 #include "dto/UserDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Authentication Service encapsulating user registration, password verification,
@@ -46,4 +46,4 @@ private:
     std::shared_ptr<IUserRepository> user_repo_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

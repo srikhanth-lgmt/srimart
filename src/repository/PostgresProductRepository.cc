@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 namespace {
 constexpr const char* kSelectColumns =
@@ -135,4 +135,4 @@ bool PostgresProductRepository::DeleteProduct(int64_t id) {
     return res.IsOk();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include "model/Product.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct CreateProductRequestDto {
     std::string name;
@@ -97,4 +97,4 @@ inline ProductResponseDto ProductResponseDto::FromEntity(const Product& product)
         .Build();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

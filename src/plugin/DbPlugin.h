@@ -3,7 +3,7 @@
 #include <drogon/plugins/Plugin.h>
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Drogon Plugin lifecycle owner for the database connection singleton.
@@ -20,4 +20,4 @@ public:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

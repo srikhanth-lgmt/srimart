@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 Review PostgresReviewRepository::CreateReview(const Review& review) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -69,4 +69,4 @@ bool PostgresReviewRepository::HasUserPurchasedProduct(int64_t user_id, int64_t 
     return PQntuples(res.Get()) > 0;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -3,7 +3,7 @@
 #include "ai/ChatProvider.h"
 #include <string>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class GeminiChatProvider : public ChatProvider {
 public:
@@ -16,4 +16,4 @@ private:
     std::string api_key_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

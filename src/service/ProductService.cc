@@ -3,7 +3,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::vector<ProductResponseDto> ProductService::GetProducts(const std::string& query, const std::string& category) {
     auto products = product_repo_->FindAll(query, category);
@@ -110,4 +110,4 @@ void ProductService::DeleteProduct(int64_t user_id, bool is_admin, int64_t produ
     spdlog::info("Product {} removed by user {} (isAdmin: {})", product_id, user_id, is_admin);
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -3,7 +3,7 @@
 #include "ai/MockChatProvider.h"
 #include "exception/AppException.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 TEST(ChatServiceTest, AnswersDomainInquiries) {
     auto mock_provider = std::make_shared<MockChatProvider>();

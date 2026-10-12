@@ -1,7 +1,7 @@
 #include "controller/CartController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<CartService> CartController::cart_service_ = nullptr;
 
@@ -103,4 +103,4 @@ void CartController::ClearCart(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

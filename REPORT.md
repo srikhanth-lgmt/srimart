@@ -1,18 +1,18 @@
 # CAPSTONE PROJECT REPORT
 
-## PROJECT TITLE: SudharshanMart — Native C++20 Multi-Seller Marketplace Backend and Full-Stack Platform
-**Student / Project Owner:** Sudharshan  
+## PROJECT TITLE: SrikanthMart — Native C++20 Multi-Seller Marketplace Backend and Full-Stack Platform
+**Student / Project Owner:** Srikanth  
 **Course / Track:** C++ Full Stack Capstone Project (Native C++20 Equivalent of Servlets/JDBC Enterprise Systems)  
 **Academic Year:** 2025–2026  
-**Repository:** `sudharshanmart`  
-**Namespace:** `sudharshan::sudharshanmart`  
+**Repository:** `srikanthmart`  
+**Namespace:** `srikanth::srikanthmart`  
 **Technology Stack:** C++20, Drogon Framework, SQLite3 / PostgreSQL 15+, libsodium (Argon2id), nlohmann-json, spdlog, GoogleTest, HTML5/CSS3/Vanilla JS  
 
 ---
 
 ## 1. EXECUTIVE SUMMARY
 
-**SudharshanMart** is an enterprise-grade multi-seller e-commerce marketplace platform built entirely with native C++20 using the asynchronous **Drogon** web framework. The project represents a modern, type-safe, and high-performance native equivalent to traditional Java EE (Servlets/JDBC) capstones. 
+**SrikanthMart** is an enterprise-grade multi-seller e-commerce marketplace platform built entirely with native C++20 using the asynchronous **Drogon** web framework. The project represents a modern, type-safe, and high-performance native equivalent to traditional Java EE (Servlets/JDBC) capstones. 
 
 Sellers can seamlessly register, manage inventory, publish rich product listings, fulfill incoming orders, and track revenue via dedicated analytics dashboards. Buyers enjoy a responsive, dynamic shopping experience featuring instant keyword search, category filtering, cart management with running totals, mock multi-channel checkout, order history with status workflows, and verified customer reviews. In addition, an intelligent domain AI assistant powered by the **Factory and Strategy Patterns** provides real-time customer support with session-level rate limiting and query caching.
 
@@ -26,7 +26,7 @@ The platform was built strictly according to clean architecture, SOLID principle
 Modern web backends frequently suffer from excessive memory overhead and high latency when implemented in interpreted or heavyweight runtimes. The objective was to architect a full-featured, multi-tenant marketplace platform using compiled native C++20 that delivers sub-millisecond response times while preserving strict object-oriented design, testability, and security.
 
 ### 2.2 Functional Scope
-- **User Authentication & RBAC (F1):** Three distinct roles—Buyer, Seller, and Admin. Admin account is securely seeded during migration for Sudharshan.
+- **User Authentication & RBAC (F1):** Three distinct roles—Buyer, Seller, and Admin. Admin account is securely seeded during migration for Srikanth.
 - **Seller Product Catalog Management (F2):** Create, update, and delete product listings with prices, stock levels, and media URLs.
 - **Buyer Exploration & Discovery (F3):** Search and filter by category and keywords without page reloads.
 - **Shopping Cart (F4):** Cart state management with automatic quantity validation against live inventory and real-time total calculation.
@@ -108,7 +108,7 @@ Automated testing is configured via GoogleTest (`ctest`):
 ## 7. DEPLOYMENT & DEVOPS
 
 - **Multi-Stage Docker:** Production builds compile in an Ubuntu toolchain stage and copy the standalone binary into a minimal `debian:bookworm-slim` container (approx. 85MB).
-- **Systemd Daemon:** Managed via `systemd/sudharshanmart.service` with automatic restarts and logging.
+- **Systemd Daemon:** Managed via `systemd/srikanthmart.service` with automatic restarts and logging.
 - **Reverse Proxy:** Nginx configuration with TLS termination and HTTP/2 proxying to port 8080.
 - **CI/CD Pipeline:** GitHub Actions workflow executing `cppcheck`, CMake build with ASan/UBSan, and `ctest` on every push.
 
@@ -116,4 +116,4 @@ Automated testing is configured via GoogleTest (`ctest`):
 
 ## 8. CONCLUSION & LEARNING OUTCOMES
 
-The **SudharshanMart** capstone project successfully demonstrates that native C++20 can serve as a robust, maintainable, and remarkably fast foundation for full-stack e-commerce platforms. By adopting modern C++ standards, clean architecture, and rigorous automated testing, the application achieves enterprise reliability and sub-millisecond API response times.
+The **SrikanthMart** capstone project successfully demonstrates that native C++20 can serve as a robust, maintainable, and remarkably fast foundation for full-stack e-commerce platforms. By adopting modern C++ standards, clean architecture, and rigorous automated testing, the application achieves enterprise reliability and sub-millisecond API response times.

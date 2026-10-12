@@ -1,5 +1,5 @@
 -- V1__init_schema.sql
--- Base schema for SudharshanMart
+-- Base schema for SrikanthMart
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

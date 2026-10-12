@@ -4,7 +4,7 @@
 #include <memory>
 #include "model/CartItem.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class ICartRepository {
 public:
@@ -31,4 +31,4 @@ public:
     virtual void ClearCart(int64_t user_id) = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

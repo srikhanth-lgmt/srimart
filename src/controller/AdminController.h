@@ -6,14 +6,14 @@
 #include "service/OrderService.h"
 #include "service/ProductService.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class AdminController : public drogon::HttpController<AdminController>, public BaseController {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(AdminController::GetAllUsers, "/api/v1/admin/users", drogon::Get, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(AdminController::GetAllOrders, "/api/v1/admin/orders", drogon::Get, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(AdminController::ModerateProduct, "/api/v1/admin/products/{1}", drogon::Delete, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::AuthFilter", "sudharshan::sudharshanmart::CorsFilter");
+    ADD_METHOD_TO(AdminController::GetAllUsers, "/api/v1/admin/users", drogon::Get, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(AdminController::GetAllOrders, "/api/v1/admin/orders", drogon::Get, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(AdminController::ModerateProduct, "/api/v1/admin/products/{1}", drogon::Delete, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::AuthFilter", "srikanth::srikanthmart::CorsFilter");
     METHOD_LIST_END
 
     void GetAllUsers(const drogon::HttpRequestPtr& req,
@@ -42,4 +42,4 @@ private:
     static void EnforceAdminRole(const drogon::HttpRequestPtr& req);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

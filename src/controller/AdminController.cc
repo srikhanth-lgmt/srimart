@@ -1,7 +1,7 @@
 #include "controller/AdminController.h"
 #include "dto/UserDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<IUserRepository> AdminController::user_repo_ = nullptr;
 std::shared_ptr<OrderService> AdminController::order_service_ = nullptr;
@@ -64,4 +64,4 @@ void AdminController::ModerateProduct(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

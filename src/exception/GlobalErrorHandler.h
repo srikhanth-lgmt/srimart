@@ -5,7 +5,7 @@
 #include "exception/AppException.h"
 #include "dto/ApiResponse.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class GlobalErrorHandler {
 public:
@@ -27,4 +27,4 @@ public:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

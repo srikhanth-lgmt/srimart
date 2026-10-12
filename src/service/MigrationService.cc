@@ -7,7 +7,7 @@
 
 namespace fs = std::filesystem;
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void MigrationService::RunMigrations(const std::string& migrations_dir, const std::string& seed_file) {
     EnsureTrackingTable();
@@ -115,4 +115,4 @@ void MigrationService::ApplySqlFile(const std::string& file_path) {
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

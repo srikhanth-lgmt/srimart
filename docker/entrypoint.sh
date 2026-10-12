@@ -1,5 +1,5 @@
 #!/bin/sh
-# SudharshanMart container entrypoint.
+# SrikanthMart container entrypoint.
 #
 # Runs the application as an unprivileged user while still allowing Render's
 # persistent disk (mounted at the DB_PATH parent directory) to be prepared by
@@ -7,7 +7,7 @@
 set -eu
 
 if [ "$(id -u)" = "0" ]; then
-    DATA_DIR="$(dirname "${DB_PATH:-/var/data/sudharshanmart.db}")"
+    DATA_DIR="$(dirname "${DB_PATH:-/var/data/srikanthmart.db}")"
     mkdir -p "$DATA_DIR"
     chown -R appuser:appuser "$DATA_DIR" 2>/dev/null || true
 

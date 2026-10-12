@@ -3,7 +3,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 CartSummaryResponseDto CartService::GetCart(int64_t user_id) {
     auto items = cart_repo_->GetCart(user_id);
@@ -70,4 +70,4 @@ void CartService::ClearCart(int64_t user_id) {
     cart_repo_->ClearCart(user_id);
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

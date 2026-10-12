@@ -1,10 +1,10 @@
--- SudharshanMart Seed Data
+-- SrikanthMart Seed Data
 -- Optional marketplace sample records. Admins must be seeded with environment credentials.
 
 INSERT OR IGNORE INTO users (id, name, email, password_hash, role, created_at) VALUES
-(2, 'TechNova Seller', 'seller@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP),
-(3, 'Akash Buyer', 'buyer@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'BUYER', CURRENT_TIMESTAMP),
-(4, 'Priya Electronics', 'priya@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP);
+(2, 'TechNova Seller', 'seller@srikanthmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP),
+(3, 'Akash Buyer', 'buyer@srikanthmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'BUYER', CURRENT_TIMESTAMP),
+(4, 'Priya Electronics', 'priya@srikanthmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP);
 
 -- Sample Marketplace Products (Prices in minor units / cents)
 INSERT OR IGNORE INTO products (id, seller_id, name, description, price_cents, stock_qty, category, image_url, created_at) VALUES
@@ -13,11 +13,11 @@ INSERT OR IGNORE INTO products (id, seller_id, name, description, price_cents, s
 (3, 2, 'AcousticANC Wireless Headphones', 'Studio-quality active noise-cancelling over-ear headphones with 40-hour battery life.', 450000, 50, 'Audio', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80', CURRENT_TIMESTAMP),
 (4, 4, 'Ergonomic Mechanical Keyboard', 'RGB backlit mechanical keyboard with hot-swappable switches and custom PBT keycaps.', 650000, 30, 'Accessories', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80', CURRENT_TIMESTAMP),
 (5, 4, 'Pro Gamer Ultra Precision Mouse', 'Lightweight wireless gaming mouse with 26000 DPI sensor and optical switches.', 299900, 60, 'Accessories', 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&auto=format&fit=crop&q=80', CURRENT_TIMESTAMP),
-(6, 4, 'Sudharshan Travel Tech Backpack', 'Water-resistant laptop backpack with dedicated USB charging port and anti-theft compartments.', 349900, 35, 'Bags', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80', CURRENT_TIMESTAMP);
+(6, 4, 'Srikanth Travel Tech Backpack', 'Water-resistant laptop backpack with dedicated USB charging port and anti-theft compartments.', 349900, 35, 'Bags', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80', CURRENT_TIMESTAMP);
 
 -- Sample Reviews
 INSERT OR IGNORE INTO reviews (id, product_id, user_id, rating, comment, created_at) VALUES
-(1, 1, 3, 5, 'Exceptional build quality! Compiles C++ projects in seconds. Highly recommended by SudharshanMart!', CURRENT_TIMESTAMP),
+(1, 1, 3, 5, 'Exceptional build quality! Compiles C++ projects in seconds. Highly recommended by SrikanthMart!', CURRENT_TIMESTAMP),
 (2, 2, 3, 4, 'Smooth display and great battery performance. Very swift delivery from seller.', CURRENT_TIMESTAMP),
 (3, 3, 3, 5, 'Superb noise cancellation. Comfortable for long hours of coding.', CURRENT_TIMESTAMP);
 

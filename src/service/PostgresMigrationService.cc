@@ -8,7 +8,7 @@
 
 namespace fs = std::filesystem;
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 void PostgresMigrationService::RunMigrations(const std::string& migrations_dir, const std::string& seed_file) {
     EnsureTrackingTable();
@@ -132,4 +132,4 @@ bool PostgresMigrationService::ApplySqlFile(const std::string& file_path, const 
     return true;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "model/Money.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 TEST(MoneyTest, ConstructsFromCents) {
     Money m(4500000);

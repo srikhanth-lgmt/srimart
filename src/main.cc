@@ -28,7 +28,7 @@
 #include "controller/AdminController.h"
 #include "controller/ChatController.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 namespace {
 // A PostgreSQL backend is selected when DATABASE_URL/POSTGRES_URL is a libpq URI.
@@ -40,7 +40,7 @@ bool IsPostgresUrl(const std::string& url) {
 int main(int argc, char* argv[]) {
     LoadLocalEnvironment();
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v");
-    spdlog::info("Starting SudharshanMart C++20 Server (Owner: Sudharshan)...");
+    spdlog::info("Starting SrikanthMart C++20 Server (Owner: Srikanth)...");
     try {
 
     const auto app_root = std::filesystem::current_path();
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
         review_repo = RepositoryFactory::CreateReviewRepository(pg_conn);
     } else {
         // 1. Initialize SQLite Database Connection (Singleton).
-        const std::string db_file = GetEnvironmentValue("DB_PATH", "sudharshanmart.db");
+        const std::string db_file = GetEnvironmentValue("DB_PATH", "srikanthmart.db");
         DatabaseConnection& db_conn = DatabaseConnection::GetInstance();
         const std::filesystem::path database_path(db_file);
         if (!database_path.parent_path().empty()) {
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
         .enableSession(3600, drogon::Cookie::SameSite::kLax, "SUDHARMART_SESSION") // 1-hour idle, same-site browser session
         .setClientMaxBodySize(10 * 1024 * 1024);
 
-    spdlog::info("SudharshanMart is ready! Serving web frontend and API at http://localhost:{}", port);
+    spdlog::info("SrikanthMart is ready! Serving web frontend and API at http://localhost:{}", port);
     drogon::app().run();
 
     return 0;

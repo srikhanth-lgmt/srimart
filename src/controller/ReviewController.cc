@@ -1,7 +1,7 @@
 #include "controller/ReviewController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<ReviewService> ReviewController::review_service_ = nullptr;
 
@@ -45,4 +45,4 @@ void ReviewController::AddReview(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

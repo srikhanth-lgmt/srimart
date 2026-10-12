@@ -3,7 +3,7 @@
 #include "repository/IUserRepository.h"
 #include "exception/AppException.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 class FakeUserRepository : public IUserRepository {
 public:
@@ -46,15 +46,15 @@ TEST(AuthServiceTest, RegistersNewBuyerSuccessfully) {
     AuthService auth_service(fake_repo);
 
     RegisterUserRequestDto req;
-    req.name = "Sudharshan Buyer";
-    req.email = "sudharshan.buyer@test.com";
+    req.name = "Srikanth Buyer";
+    req.email = "srikanth.buyer@test.com";
     req.password = "StrongPass123!";
     req.role = "BUYER";
     req.accepted_terms = true;
 
     UserResponseDto resp = auth_service.Register(req);
-    EXPECT_EQ(resp.name, "Sudharshan Buyer");
-    EXPECT_EQ(resp.email, "sudharshan.buyer@test.com");
+    EXPECT_EQ(resp.name, "Srikanth Buyer");
+    EXPECT_EQ(resp.email, "srikanth.buyer@test.com");
     EXPECT_EQ(resp.role, "BUYER");
     EXPECT_GT(resp.id, 0);
 }

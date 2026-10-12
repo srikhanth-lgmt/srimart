@@ -10,7 +10,7 @@
 #include "repository/PostgresOrderRepository.h"
 #include "repository/PostgresReviewRepository.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::unique_ptr<IUserRepository> RepositoryFactory::CreateUserRepository(DatabaseConnection& db_conn) {
     return std::make_unique<SqliteUserRepository>(db_conn);
@@ -52,4 +52,4 @@ std::unique_ptr<IReviewRepository> RepositoryFactory::CreateReviewRepository(Pos
     return std::make_unique<PostgresReviewRepository>(db_conn);
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

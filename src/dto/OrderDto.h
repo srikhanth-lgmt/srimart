@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include "model/Order.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct CheckoutRequestDto {
     std::string shipping_address;
@@ -133,4 +133,4 @@ struct SellerDashboardDto {
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

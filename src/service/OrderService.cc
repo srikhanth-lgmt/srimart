@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 OrderResponseDto OrderService::Checkout(int64_t buyer_id, const CheckoutRequestDto& req) {
     // 1. Validation
@@ -120,4 +120,4 @@ SellerDashboardDto OrderService::GetSellerDashboard(int64_t seller_id) {
     return dto;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

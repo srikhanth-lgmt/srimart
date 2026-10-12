@@ -1,4 +1,4 @@
-# SudharshanMart — Native C++20 Marketplace Platform
+# SrikanthMart — Native C++20 Marketplace Platform
 
 [![C++20](https://img.shields.io/badge/Standard-C%2B%2B20-blue.svg)](https://en.cppreference.com/w/cpp/20)
 [![Framework](https://img.shields.io/badge/Framework-Drogon-red.svg)](https://drogon.org)
@@ -6,15 +6,15 @@
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)]()
 
 > **Capstone Project — Native C++20 Equivalent of the Servlets/JDBC Enterprise Capstone**  
-> **Project Owner & Architect:** Sudharshan  
-> **Namespace:** `sudharshan::sudharshanmart`  
-> **Database:** `sudharshanmart.db` / PostgreSQL  
+> **Project Owner & Architect:** Srikanth  
+> **Namespace:** `srikanth::srikanthmart`  
+> **Database:** `srikanthmart.db` / PostgreSQL  
 
 ---
 
 ## 🚀 Overview
 
-**SudharshanMart** is an enterprise-grade, multi-seller e-commerce web platform powered by a native C++20 HTTP backend utilizing the high-performance **Drogon** framework. It bridges web architectures with native systems programming, featuring:
+**SrikanthMart** is an enterprise-grade, multi-seller e-commerce web platform powered by a native C++20 HTTP backend utilizing the high-performance **Drogon** framework. It bridges web architectures with native systems programming, featuring:
 
 - **Strict Multi-Tier Clean Architecture**: Clear separation of Filters, Controllers, Services, Repositories, and Entities.
 - **Dependency Inversion (SOLID)**: Pure C++ service layers interact solely with abstract repository interfaces (`std::shared_ptr<I...Repository>`).
@@ -39,7 +39,7 @@ graph TD
 
 ### Module Directory Structure
 ```
-sudharshan/
+srikanth/
 ├── CMakeLists.txt                # C++20 CMake build configuration
 ├── vcpkg.json                    # Dependency manifest (Drogon, libsodium, spdlog, sqlite3)
 ├── Dockerfile                    # Multi-stage production container
@@ -47,7 +47,7 @@ sudharshan/
 ├── server.py                     # Standalone instant dev server runner
 ├── db/
 │   ├── schema.sql                # Complete relational schema
-│   ├── seed.sql                  # Seed rows (Sudharshan Admin, Sellers, Buyers)
+│   ├── seed.sql                  # Seed rows (Srikanth Admin, Sellers, Buyers)
 │   └── migrations/               # Numbered migrations (V1, V2, V3)
 ├── public/                       # Responsive Web Interface
 │   ├── index.html                # Single-page application structure
@@ -114,13 +114,13 @@ Supported variables:
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `PORT` | `8080` | HTTP listener port (binds to `0.0.0.0`) |
-| `DB_PATH` | `sudharshanmart.db` | SQLite database file. `.env.example` uses `./data/sudharshanmart.db`. |
+| `DB_PATH` | `srikanthmart.db` | SQLite database file. `.env.example` uses `./data/srikanthmart.db`. |
 | `DATABASE_URL` | unset | Server-only PostgreSQL URI; use Neon for deployment. If set, invalid/non-PostgreSQL URLs fail startup. |
 | `REQUIRE_POSTGRES` | `false` | Set `true` to fail startup instead of silently falling back to SQLite. |
 | `AI_CHATBOT_PROVIDER` | `mock` | Chat provider: `mock` or `gemini` |
 | `GEMINI_API_KEY` | empty | Optional server-side key when Gemini is intentionally enabled |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | unset | Required only for explicit admin seed or password reset; never commit values |
-| `ADMIN_NAME` | SudharshanMart Administrator | Optional display name for a newly seeded admin |
+| `ADMIN_NAME` | SrikanthMart Administrator | Optional display name for a newly seeded admin |
 
 Keep `.env` local; it is ignored by Git and excluded from Docker builds. Do not place secrets in frontend files.
 
@@ -136,12 +136,12 @@ Create a Docker Web Service from this repository. The production image requires 
 
 The previous runtime silently chose SQLite whenever neither PostgreSQL URL variable was set. That lets the app appear to run while Neon remains empty. The production image now fails at startup when `DATABASE_URL` is missing, and it rejects other URL schemes instead of silently falling back. PostgreSQL connections also set `search_path` to `public`, so the migration target is explicit.
 
-`DATABASE_URL` must use `postgres://` or `postgresql://`; the server selects it instead of SQLite and explicitly sets PostgreSQL `search_path` to `public`. At startup it applies pending migrations transactionally under a PostgreSQL advisory lock and fails before serving if any required table is missing. Check `/api/v1/health` or run `/opt/sudharshanmart/bin/sudharshanmart --check-db` from Render Shell to see backend, database, schema, and table count without credentials. Run `/opt/sudharshanmart/bin/sudharshanmart --migrate` for a one-off migration; startup also runs migrations before accepting requests. The local `.env` in this workspace has no PostgreSQL URL, so it uses SQLite; Neon connectivity and live table creation cannot be confirmed until the Render secret is configured. Never upload `.env` to Render. Add `GEMINI_API_KEY` only if Gemini is intentionally enabled. Admin accounts are never created from public registration or seeded with source-controlled passwords.
+`DATABASE_URL` must use `postgres://` or `postgresql://`; the server selects it instead of SQLite and explicitly sets PostgreSQL `search_path` to `public`. At startup it applies pending migrations transactionally under a PostgreSQL advisory lock and fails before serving if any required table is missing. Check `/api/v1/health` or run `/opt/srikanthmart/bin/srikanthmart --check-db` from Render Shell to see backend, database, schema, and table count without credentials. Run `/opt/srikanthmart/bin/srikanthmart --migrate` for a one-off migration; startup also runs migrations before accepting requests. The local `.env` in this workspace has no PostgreSQL URL, so it uses SQLite; Neon connectivity and live table creation cannot be confirmed until the Render secret is configured. Never upload `.env` to Render. Add `GEMINI_API_KEY` only if Gemini is intentionally enabled. Admin accounts are never created from public registration or seeded with source-controlled passwords.
 
 To seed the first admin, add `ADMIN_EMAIL` and `ADMIN_PASSWORD` as private service environment variables in Render, deploy, then use the service Shell:
 
 ```sh
-/opt/sudharshanmart/bin/sudharshanmart --seed-admin
+/opt/srikanthmart/bin/srikanthmart --seed-admin
 ```
 
 The command connects to the configured production `DATABASE_URL`, applies pending migrations, verifies the required schema, and safely seeds the admin. Repeating it with the same existing admin credentials is safe. If an admin exists with a different password, it fails without changing privileges; explicitly use `--reset-admin-password` to rotate that account's password. It refuses to promote a buyer or seller. Remove `ADMIN_PASSWORD` from Render after the operation unless you are rotating credentials. For the legacy seeded admin row, confirm `ADMIN_EMAIL` matches that existing ADMIN account and use the explicit reset command. Existing data is retained.
@@ -149,15 +149,15 @@ The command connects to the configured production `DATABASE_URL`, applies pendin
 For local Docker, run these commands from the project root (the PowerShell form works in Windows PowerShell):
 
 ```powershell
-docker build -t sudharshanmart .
+docker build -t srikanthmart .
 New-Item -ItemType Directory -Force data
-docker run --rm -p 8080:8080 -e PORT=8080 -e REQUIRE_POSTGRES=false -e DB_PATH=/var/data/sudharshanmart.db -e AI_CHATBOT_PROVIDER=mock -v "${PWD}/data:/var/data" sudharshanmart
+docker run --rm -p 8080:8080 -e PORT=8080 -e REQUIRE_POSTGRES=false -e DB_PATH=/var/data/srikanthmart.db -e AI_CHATBOT_PROVIDER=mock -v "${PWD}/data:/var/data" srikanthmart
 ```
 
 Check `http://localhost:8080/api/v1/health` and `http://localhost:8080/` after startup. Run `docker run` again with the same `data` directory to confirm the database persists.
 
 ### Option 1: Instant Local Runner (Windows / macOS / Linux)
-SudharshanMart includes an interactive standalone runner using Python:
+SrikanthMart includes an interactive standalone runner using Python:
 ```bash
 python server.py
 ```
@@ -176,7 +176,7 @@ cmake --build build --config Release
 cd build && ctest --output-on-failure
 
 # Launch Native Drogon server
-./build/sudharshanmart
+./build/srikanthmart
 ```
 
 ### Option 3: Docker Multi-Stage Container

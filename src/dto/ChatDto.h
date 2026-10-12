@@ -3,7 +3,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct ChatRequestDto {
     std::string message;
@@ -19,4 +19,4 @@ struct ChatResponseDto {
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

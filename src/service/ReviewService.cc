@@ -3,7 +3,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 ReviewResponseDto ReviewService::AddReview(int64_t user_id, int64_t product_id, const CreateReviewRequestDto& req) {
     if (product_id <= 0) {
@@ -46,4 +46,4 @@ std::vector<ReviewResponseDto> ReviewService::GetProductReviews(int64_t product_
     return dtos;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

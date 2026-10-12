@@ -3,7 +3,7 @@
 #include "repository/IProductRepository.h"
 #include "exception/AppException.h"
 
-using namespace sudharshan::sudharshanmart;
+using namespace srikanth::srikanthmart;
 
 class FakeProductRepository : public IProductRepository {
 public:
@@ -71,14 +71,14 @@ TEST(ProductServiceTest, CreatesProductSuccessfully) {
     ProductService service(repo);
 
     CreateProductRequestDto req;
-    req.name = "Sudharshan Special Laptop";
+    req.name = "Srikanth Special Laptop";
     req.description = "Top of the line laptop";
     req.price_cents = 4500000;
     req.stock_qty = 10;
     req.category = "Electronics";
 
     auto resp = service.CreateProduct(2, req);
-    EXPECT_EQ(resp.name, "Sudharshan Special Laptop");
+    EXPECT_EQ(resp.name, "Srikanth Special Laptop");
     EXPECT_EQ(resp.price_cents, 4500000);
     EXPECT_EQ(resp.seller_id, 2);
 }

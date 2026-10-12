@@ -3,7 +3,7 @@
 #include "repository/IReviewRepository.h"
 #include "repository/PostgresConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class PostgresReviewRepository : public IReviewRepository {
 public:
@@ -17,4 +17,4 @@ private:
     PostgresConnection& db_conn_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

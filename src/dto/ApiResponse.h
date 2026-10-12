@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <drogon/drogon.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Standardized API response error descriptor.
@@ -65,4 +65,4 @@ public:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

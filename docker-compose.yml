@@ -3,19 +3,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: sudharshanmart-app
+    container_name: srikanthmart-app
     ports:
       - "8080:8080"
     environment:
       - PORT=8080
-      - DB_PATH=/var/data/sudharshanmart.db
+      - DB_PATH=/var/data/srikanthmart.db
       - DATABASE_URL=${DATABASE_URL:-}
       - REQUIRE_POSTGRES=false
       - AI_CHATBOT_PROVIDER=mock
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
     volumes:
-      - sudharshanmart_data:/var/data
+      - srikanthmart_data:/var/data
     restart: unless-stopped
 
 volumes:
-  sudharshanmart_data:
+  srikanthmart_data:

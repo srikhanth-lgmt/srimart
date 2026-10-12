@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::optional<User> SqliteUserRepository::FindById(int64_t id) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -121,4 +121,4 @@ std::vector<User> SqliteUserRepository::FindAll() {
     return list;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

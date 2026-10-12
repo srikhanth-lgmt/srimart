@@ -4,7 +4,7 @@
 #include "service/MigrationService.h"
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Startup Plugin invoking MigrationService to guarantee migrations run on process boot.
@@ -17,4 +17,4 @@ public:
     void shutdown() override;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -1,4 +1,4 @@
--- SudharshanMart Database Schema Specification
+-- SrikanthMart Database Schema Specification
 -- Compatible with PostgreSQL 15+ and SQLite 3
 
 CREATE TABLE IF NOT EXISTS schema_migrations (

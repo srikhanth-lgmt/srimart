@@ -1,7 +1,7 @@
 #include "controller/AuthController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<AuthService> AuthController::auth_service_ = nullptr;
 
@@ -82,4 +82,4 @@ void AuthController::GetCurrentUser(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

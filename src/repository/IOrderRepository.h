@@ -6,7 +6,7 @@
 #include "model/Order.h"
 #include "model/CartItem.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class IOrderRepository {
 public:
@@ -53,4 +53,4 @@ public:
     virtual int64_t GetSellerOrderCount(int64_t seller_id) = 0;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

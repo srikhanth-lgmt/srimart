@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include "model/Review.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct CreateReviewRequestDto {
     int32_t rating{5};
@@ -70,4 +70,4 @@ inline ReviewResponseDto ReviewResponseDto::FromEntity(const Review& r) {
         .Build();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

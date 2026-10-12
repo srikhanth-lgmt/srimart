@@ -3,7 +3,7 @@
 #include <spdlog/spdlog.h>
 #include <cstring>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 namespace {
 constexpr const char* kOrderColumns =
@@ -225,4 +225,4 @@ void PostgresOrderRepository::PopulateOrderItems(Order& order) {
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

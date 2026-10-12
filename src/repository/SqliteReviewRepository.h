@@ -3,7 +3,7 @@
 #include "repository/IReviewRepository.h"
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class SqliteReviewRepository : public IReviewRepository {
 public:
@@ -17,4 +17,4 @@ private:
     DatabaseConnection& db_conn_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

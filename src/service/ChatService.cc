@@ -3,7 +3,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 ChatResponseDto ChatService::ProcessMessage(const std::string& session_id, const std::string& message) {
     // 1. Input validation & length cap
@@ -35,7 +35,7 @@ ChatResponseDto ChatService::ProcessMessage(const std::string& session_id, const
     }
 
     // 4. Generate reply via provider
-    std::string reply = provider_->GetReply(message, "SudharshanMart catalog");
+    std::string reply = provider_->GetReply(message, "SrikanthMart catalog");
 
     // 5. Cache response in session
     {
@@ -65,4 +65,4 @@ bool ChatService::CheckRateLimit(const std::string& session_id) {
     return true;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

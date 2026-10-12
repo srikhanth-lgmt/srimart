@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cctype>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 namespace {
 std::string NormalizeEmail(std::string email) {
@@ -82,4 +82,4 @@ UserResponseDto AuthService::GetUserById(int64_t id) {
     return UserResponseDto::FromEntity(user_opt.value());
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

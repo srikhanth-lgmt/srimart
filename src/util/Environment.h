@@ -5,7 +5,7 @@
 #include <string>
 #include <algorithm>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 inline std::string TrimEnvironmentValue(std::string value) {
     const auto first = value.find_first_not_of(" \t\r\n");
@@ -44,4 +44,4 @@ inline std::string GetEnvironmentValue(const char* key, const std::string& fallb
     return value ? value : fallback;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -3,7 +3,7 @@
 #include "ai/GeminiChatProvider.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::unique_ptr<ChatProvider> ChatProviderFactory::CreateProvider(const std::string& provider_type,
                                                                  const std::string& api_key) {
@@ -15,4 +15,4 @@ std::unique_ptr<ChatProvider> ChatProviderFactory::CreateProvider(const std::str
     return std::make_unique<MockChatProvider>();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

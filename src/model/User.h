@@ -3,7 +3,7 @@
 #include <string>
 #include <cstdint>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 enum class UserRole {
     kBuyer,
@@ -38,4 +38,4 @@ struct User {
     std::string created_at;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

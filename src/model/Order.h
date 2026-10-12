@@ -5,7 +5,7 @@
 #include <vector>
 #include "model/Money.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 enum class OrderStatus {
     kPending,
@@ -62,4 +62,4 @@ struct Order {
     std::vector<OrderItem> items;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

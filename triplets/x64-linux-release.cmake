@@ -1,4 +1,4 @@
-# Custom vcpkg triplet for SudharshanMart production containers.
+# Custom vcpkg triplet for SrikanthMart production containers.
 #
 # Mirrors the community x64-linux triplet (static linkage) but builds a
 # Release-only install tree. This lets the Docker build produce a fully

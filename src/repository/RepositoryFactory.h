@@ -9,7 +9,7 @@
 #include "repository/DatabaseConnection.h"
 #include "repository/PostgresConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Factory for instantiating repository implementations.
@@ -36,4 +36,4 @@ public:
     static std::unique_ptr<IReviewRepository> CreateReviewRepository(PostgresConnection& db_conn);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

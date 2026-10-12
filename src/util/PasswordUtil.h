@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Argon2id password hashing utility via libsodium (crypto_pwhash_str).
@@ -16,4 +16,4 @@ public:
     [[nodiscard]] static bool VerifyPassword(const std::string& plain_password, const std::string& hashed_password);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

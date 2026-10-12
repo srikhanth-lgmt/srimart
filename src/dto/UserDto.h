@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 #include "model/User.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief User registration request DTO.
@@ -80,4 +80,4 @@ inline UserResponseDto UserResponseDto::FromEntity(const User& user) {
         .Build();
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -21,16 +21,16 @@ file(GLOB_RECURSE CORE_SRCS
     "${PROJECT_SOURCE_DIR}/src/ai/*.cpp"
 )
 
-add_executable(sudharshanmart_tests
+add_executable(srikanthmart_tests
     ${TEST_SRCS}
     ${CORE_SRCS}
 )
 
-target_include_directories(sudharshanmart_tests PRIVATE
+target_include_directories(srikanthmart_tests PRIVATE
     ${PROJECT_SOURCE_DIR}/src
 )
 
-target_link_libraries(sudharshanmart_tests PRIVATE
+target_link_libraries(srikanthmart_tests PRIVATE
     GTest::gtest
     GTest::gtest_main
     GTest::gmock
@@ -43,4 +43,4 @@ target_link_libraries(sudharshanmart_tests PRIVATE
     PostgreSQL::PostgreSQL
 )
 
-gtest_discover_tests(sudharshanmart_tests)
+gtest_discover_tests(srikanthmart_tests)

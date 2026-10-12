@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Review entity with rating and comment.
@@ -35,4 +35,4 @@ struct WishlistItem {
     std::string product_image_url;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

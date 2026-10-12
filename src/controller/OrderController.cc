@@ -1,7 +1,7 @@
 #include "controller/OrderController.h"
 #include "util/JsonUtil.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::shared_ptr<OrderService> OrderController::order_service_ = nullptr;
 
@@ -130,4 +130,4 @@ void OrderController::UpdateOrderStatus(const drogon::HttpRequestPtr& req,
     }
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

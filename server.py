@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-SudharshanMart — Local Interactive Server Runner
+SrikanthMart — Local Interactive Server Runner
 Provides an instant local environment on Windows/Linux matching the native Drogon C++20 API.
-Owner: Sudharshan
+Owner: Srikanth
 """
 
 import http.server
@@ -15,7 +15,7 @@ import mimetypes
 from urllib.parse import urlparse, parse_qs
 
 PORT = int(os.environ.get("PORT", 8080))
-DB_PATH = "sudharshanmart.db"
+DB_PATH = "srikanthmart.db"
 MIGRATIONS_DIR = os.path.join("db", "migrations")
 SEED_FILE = os.path.join("db", "seed.sql")
 PUBLIC_DIR = "public"
@@ -59,7 +59,7 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-class SudharshanMartHandler(http.server.BaseHTTPRequestHandler):
+class SrikanthMartHandler(http.server.BaseHTTPRequestHandler):
     def end_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
@@ -96,7 +96,7 @@ class SudharshanMartHandler(http.server.BaseHTTPRequestHandler):
         query = parse_qs(parsed.query)
 
         if path == "/api/v1/health":
-            self.send_json(200, {"status": "UP", "db": "UP", "app": "SudharshanMart", "version": "1.1.0"})
+            self.send_json(200, {"status": "UP", "db": "UP", "app": "SrikanthMart", "version": "1.1.0"})
             return
 
         conn = get_db()
@@ -290,19 +290,19 @@ class SudharshanMartHandler(http.server.BaseHTTPRequestHandler):
         # AI Chatbot
         if path == "/api/v1/chat":
             msg = payload.get("message", "").lower()
-            reply = "Hello! I am SudharshanMart AI Assistant. I can assist you with tracking orders, discovering products, checking return policies, or selling on our marketplace!"
+            reply = "Hello! I am SrikanthMart AI Assistant. I can assist you with tracking orders, discovering products, checking return policies, or selling on our marketplace!"
             if "status" in msg or "track" in msg:
                 reply = "Live order status workflow follows: Pending -> Confirmed -> Shipped -> Delivered. Track it anytime under 'My Orders'!"
             elif "return" in msg or "refund" in msg:
-                reply = "SudharshanMart offers a 14-day hassle-free replacement or refund guarantee on all products."
+                reply = "SrikanthMart offers a 14-day hassle-free replacement or refund guarantee on all products."
             elif "shipping" in msg or "delivery" in msg:
                 reply = "Standard express delivery is free on all orders and arrives in 2 to 4 business days."
             elif "laptop" in msg:
                 reply = "The UltraBook Pro 15 with 16GB RAM and 512GB SSD is available for INR 45,000 in the Electronics section!"
             elif "mobile" in msg:
                 reply = "The Nexus 5G Smartphone is available for INR 18,000 with 120Hz AMOLED display!"
-            elif "owner" in msg or "sudharshan" in msg:
-                reply = "SudharshanMart is owned and architected by Sudharshan."
+            elif "owner" in msg or "srikanth" in msg:
+                reply = "SrikanthMart is owned and architected by Srikanth."
 
             self.send_json(200, {"reply": reply})
             conn.close()
@@ -535,11 +535,11 @@ class SudharshanMartHandler(http.server.BaseHTTPRequestHandler):
 def main():
     init_database()
     print("=" * 60)
-    print("  SudharshanMart Platform Server")
-    print("  Owner & Architect: Sudharshan")
+    print("  SrikanthMart Platform Server")
+    print("  Owner & Architect: Srikanth")
     print(f"  Listening on http://localhost:{PORT}")
     print("=" * 60)
-    with socketserver.TCPServer(("", PORT), SudharshanMartHandler) as httpd:
+    with socketserver.TCPServer(("", PORT), SrikanthMartHandler) as httpd:
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

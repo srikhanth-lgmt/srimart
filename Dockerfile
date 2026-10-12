@@ -1,5 +1,5 @@
 # =============================================================================
-# Stage 1: Build — compiles SudharshanMart and all vcpkg dependencies.
+# Stage 1: Build — compiles SrikanthMart and all vcpkg dependencies.
 # =============================================================================
 FROM ubuntu:24.04 AS builder
 
@@ -67,7 +67,7 @@ RUN cmake -S . -B build -G Ninja \
         -DVCPKG_INSTALLED_DIR=/app/vcpkg_installed \
         -DVCPKG_MANIFEST_MODE=ON \
         -DVCPKG_INSTALL_OPTIONS=--clean-after-build \
-    && cmake --build build --target sudharshanmart --parallel 2
+    && cmake --build build --target srikanthmart --parallel 2
 
 # =============================================================================
 # Stage 2: Runtime — minimal image containing only the self-contained binary.
@@ -87,31 +87,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd --system --gid 1001 appuser \
     && useradd --system --uid 1001 --gid appuser \
-        --home-dir /opt/sudharshanmart --shell /usr/sbin/nologin appuser
+        --home-dir /opt/srikanthmart --shell /usr/sbin/nologin appuser
 
-WORKDIR /opt/sudharshanmart
+WORKDIR /opt/srikanthmart
 
 # libpq searches $HOME/.postgresql for optional client certificates. The
 # Ubuntu base image can leave HOME pointing at /root even after the entrypoint
 # drops privileges to appuser, causing Neon connections to fail with EACCES.
-ENV HOME=/opt/sudharshanmart
+ENV HOME=/opt/srikanthmart
 
 # Compiled binary and runtime assets.
-COPY --from=builder /app/build/sudharshanmart /opt/sudharshanmart/bin/sudharshanmart
-COPY --from=builder /app/public /opt/sudharshanmart/public
-COPY --from=builder /app/db /opt/sudharshanmart/db
+COPY --from=builder /app/build/srikanthmart /opt/srikanthmart/bin/srikanthmart
+COPY --from=builder /app/public /opt/srikanthmart/public
+COPY --from=builder /app/db /opt/srikanthmart/db
 
 # Entrypoint (normalize line endings to be safe on Windows checkouts).
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \
     && chmod +x /usr/local/bin/entrypoint.sh \
     && mkdir -p /var/data \
-    && chown -R appuser:appuser /opt/sudharshanmart /var/data
+    && chown -R appuser:appuser /opt/srikanthmart /var/data
 
 # Runtime defaults; Render must provide DATABASE_URL for the Neon database.
 # Local Docker Compose explicitly overrides REQUIRE_POSTGRES to keep SQLite usable.
 ENV PORT=8080
-ENV DB_PATH=/var/data/sudharshanmart.db
+ENV DB_PATH=/var/data/srikanthmart.db
 ENV REQUIRE_POSTGRES=true
 ENV AI_CHATBOT_PROVIDER=mock
 
@@ -121,4 +121,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
     CMD curl -fsS "http://127.0.0.1:${PORT}/api/v1/health" || exit 1
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
-CMD ["/opt/sudharshanmart/bin/sudharshanmart"]
+CMD ["/opt/srikanthmart/bin/srikanthmart"]

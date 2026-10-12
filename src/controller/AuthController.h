@@ -4,15 +4,15 @@
 #include "controller/BaseController.h"
 #include "service/AuthService.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class AuthController : public drogon::HttpController<AuthController>, public BaseController {
 public:
     METHOD_LIST_BEGIN
-    ADD_METHOD_TO(AuthController::Register, "/api/v1/auth/register", drogon::Post, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(AuthController::Login, "/api/v1/auth/login", drogon::Post, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(AuthController::Logout, "/api/v1/auth/logout", drogon::Post, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::CorsFilter");
-    ADD_METHOD_TO(AuthController::GetCurrentUser, "/api/v1/auth/me", drogon::Get, "sudharshan::sudharshanmart::LoggingFilter", "sudharshan::sudharshanmart::CorsFilter");
+    ADD_METHOD_TO(AuthController::Register, "/api/v1/auth/register", drogon::Post, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(AuthController::Login, "/api/v1/auth/login", drogon::Post, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(AuthController::Logout, "/api/v1/auth/logout", drogon::Post, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::CorsFilter");
+    ADD_METHOD_TO(AuthController::GetCurrentUser, "/api/v1/auth/me", drogon::Get, "srikanth::srikanthmart::LoggingFilter", "srikanth::srikanthmart::CorsFilter");
     METHOD_LIST_END
 
     void Register(const drogon::HttpRequestPtr& req,
@@ -35,4 +35,4 @@ private:
     static std::shared_ptr<AuthService> auth_service_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "model/Money.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Product entity representing seller listings.
@@ -21,4 +21,4 @@ struct Product {
     std::string created_at;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

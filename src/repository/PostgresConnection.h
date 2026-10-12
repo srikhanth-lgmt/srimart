@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 struct PostgresDatabaseInfo {
     std::string host;
@@ -228,4 +228,4 @@ inline int32_t PgInt32(PGresult* res, int row, int col) {
     return static_cast<int32_t>(std::stol(PQgetvalue(res, row, col)));
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

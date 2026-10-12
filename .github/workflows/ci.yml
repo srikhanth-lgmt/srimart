@@ -1,4 +1,4 @@
-name: SudharshanMart CI Pipeline
+name: SrikanthMart CI Pipeline
 
 on:
   push:

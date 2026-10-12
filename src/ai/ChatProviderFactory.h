@@ -4,7 +4,7 @@
 #include <string>
 #include "ai/ChatProvider.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Factory for creating ChatProvider instances (Mock or Gemini) based on config.
@@ -15,4 +15,4 @@ public:
                                                        const std::string& api_key = "");
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

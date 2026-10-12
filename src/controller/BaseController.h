@@ -6,7 +6,7 @@
 #include "dto/ApiResponse.h"
 #include "exception/GlobalErrorHandler.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Common Base Controller providing session extraction and response helpers.
@@ -40,4 +40,4 @@ protected:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

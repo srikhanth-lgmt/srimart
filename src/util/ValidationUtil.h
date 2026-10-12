@@ -5,7 +5,7 @@
 #include <cctype>
 #include "exception/AppException.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class ValidationUtil {
 public:
@@ -72,4 +72,4 @@ public:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

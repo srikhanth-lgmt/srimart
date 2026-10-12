@@ -5,7 +5,7 @@
 #include <drogon/drogon.h>
 #include "exception/AppException.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class JsonUtil {
 public:
@@ -21,4 +21,4 @@ public:
     }
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

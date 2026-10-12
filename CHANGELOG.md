@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the **SudharshanMart** platform will be documented in this file.
+All notable changes to the **SrikanthMart** platform will be documented in this file.
 
 - **v1.1.0** (Oct 10, 2026): Shipped AI Chatbot integration (`ChatController`, `ChatService`, `GeminiChatProvider`, `MockChatProvider`) with session rate limiting and caching.
 - **v1.0.0** (Sep 21, 2026): Live cloud deployment finalized with Nginx TLS reverse proxy, systemd daemon, and Docker multi-stage build.

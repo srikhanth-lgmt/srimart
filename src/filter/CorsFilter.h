@@ -2,7 +2,7 @@
 
 #include <drogon/HttpFilter.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class CorsFilter : public drogon::HttpFilter<CorsFilter> {
 public:
@@ -11,4 +11,4 @@ public:
                   drogon::FilterChainCallback&& fccb) override;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

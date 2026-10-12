@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Resolve the SudharshanMart vcpkg manifest and, on failure, surface the
+# Resolve the SrikanthMart vcpkg manifest and, on failure, surface the
 # underlying vcpkg error at the very end of the build log so it is easy to spot
 # in Render (which otherwise only shows the generic "exit code: 1").
 set -uo pipefail

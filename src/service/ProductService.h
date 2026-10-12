@@ -5,7 +5,7 @@
 #include "repository/IProductRepository.h"
 #include "dto/ProductDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Product Service handling catalog browsing, search, and seller product management.
@@ -53,4 +53,4 @@ private:
     std::shared_ptr<IProductRepository> product_repo_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -3,7 +3,7 @@
 #include "repository/IOrderRepository.h"
 #include "repository/DatabaseConnection.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 class SqliteOrderRepository : public IOrderRepository {
 public:
@@ -23,4 +23,4 @@ private:
     void PopulateOrderItems(Order& order);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

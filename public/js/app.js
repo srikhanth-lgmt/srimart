@@ -1,7 +1,7 @@
 /**
- * SudharshanMart — Native C++ Marketplace Frontend Application Logic
+ * SrikanthMart — Native C++ Marketplace Frontend Application Logic
  * AJAX Client communicating with native Drogon backend /api/v1 endpoints
- * Owner: Sudharshan
+ * Owner: Srikanth
  */
 
 const app = {
@@ -17,7 +17,7 @@ const app = {
     },
 
     init: async function() {
-        console.log("Initializing SudharshanMart App...");
+        console.log("Initializing SrikanthMart App...");
         this.checkHealth();
         await this.refreshSession();
         await this.loadProducts();
@@ -880,7 +880,7 @@ const app = {
         } catch (e) {
             const loadingEl = document.getElementById(loadingId);
             if (loadingEl) {
-                loadingEl.innerHTML = `<p>I am online in local mode! SudharshanMart features 2-4 day delivery, instant mock checkout, and full seller listing management.</p>`;
+                loadingEl.innerHTML = `<p>I am online in local mode! SrikanthMart features 2-4 day delivery, instant mock checkout, and full seller listing management.</p>`;
             }
         }
     },

@@ -1,19 +1,19 @@
-# SudharshanMart — Capstone Defense Presentation Deck
+# SrikanthMart — Capstone Defense Presentation Deck
 
-**Project Name:** SudharshanMart — Native C++20 Multi-Seller Marketplace  
-**Student & Presenter:** Sudharshan  
+**Project Name:** SrikanthMart — Native C++20 Multi-Seller Marketplace  
+**Student & Presenter:** Srikanth  
 **Evaluator Window:** Jul 27 – Oct 10, 2026  
 **Platform Architecture:** C++20 · Drogon · SQLite/PostgreSQL · Argon2id · Clean Architecture  
 
 ---
 
 ## Slide 1: Title & Introduction
-- **Slide Title:** SudharshanMart: High-Performance Native C++20 Marketplace
+- **Slide Title:** SrikanthMart: High-Performance Native C++20 Marketplace
 - **Subtitle:** The Native C++20 Equivalent of the Servlets/JDBC Enterprise Capstone
-- **Presenter:** Sudharshan (Solo Builder & Lead Architect)
+- **Presenter:** Srikanth (Solo Builder & Lead Architect)
 - **Key Visual:** System architecture badge, Drogon + C++20 logo, Live demo link
 - **Speaker Notes:**
-  > "Good morning/afternoon, evaluators. My name is Sudharshan, and I am proud to present SudharshanMart—a native C++20 multi-seller e-commerce web platform engineered with Drogon. This project bridges high-performance systems programming with enterprise web architecture."
+  > "Good morning/afternoon, evaluators. My name is Srikanth, and I am proud to present SrikanthMart—a native C++20 multi-seller e-commerce web platform engineered with Drogon. This project bridges high-performance systems programming with enterprise web architecture."
 
 ---
 
@@ -58,7 +58,7 @@
 ## Slide 5: Core Functional Deliverables (F1 – F8)
 - **Slide Title:** End-to-End Functional Capabilities
 - **Feature Matrix:**
-  - **F1 (Authentication):** Role-based access for Buyer, Seller, and seeded Admin (Sudharshan).
+  - **F1 (Authentication):** Role-based access for Buyer, Seller, and seeded Admin (Srikanth).
   - **F2 (Seller Desk):** Product creation, price management, stock tracking, and listing updates.
   - **F3 (Buyer Discovery):** Real-time keyword search and category filtering.
   - **F4 (Shopping Cart):** Live quantity recalculation, stock checks, and running total display.
@@ -123,7 +123,7 @@
 ## Slide 10: Conclusion & Q&A
 - **Slide Title:** Conclusion & Evaluation
 - **Summary:**
-  - High-performance native C++20 marketplace completed by Sudharshan.
+  - High-performance native C++20 marketplace completed by Srikanth.
   - 100% compliance with all capstone requirements, design patterns, and security constraints.
   - Fully packaged with C++ source, SQLite migrations, interactive runner, and complete documentation.
 - **Thank you! Questions & Answers.**

@@ -1,13 +1,13 @@
 [Unit]
-Description=SudharshanMart Native C++20 Marketplace Service
+Description=SrikanthMart Native C++20 Marketplace Service
 After=network.target
 
 [Service]
 Type=simple
 User=www-data
 Group=www-data
-WorkingDirectory=/opt/sudharshanmart
-ExecStart=/opt/sudharshanmart/bin/sudharshanmart
+WorkingDirectory=/opt/srikanthmart
+ExecStart=/opt/srikanthmart/bin/srikanthmart
 Restart=always
 RestartSec=5
 Environment=PORT=8080

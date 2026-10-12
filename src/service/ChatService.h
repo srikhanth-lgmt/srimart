@@ -9,7 +9,7 @@
 #include "ai/ChatProvider.h"
 #include "dto/ChatDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Chat Service managing AI interactions, session rate limits, and in-memory query caching.
@@ -42,4 +42,4 @@ private:
     bool CheckRateLimit(const std::string& session_id);
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

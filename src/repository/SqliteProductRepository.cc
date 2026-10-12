@@ -2,7 +2,7 @@
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 std::optional<Product> SqliteProductRepository::FindById(int64_t id) {
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
@@ -183,4 +183,4 @@ bool SqliteProductRepository::DeleteProduct(int64_t id) {
     return sqlite3_step(stmt.Get()) == SQLITE_DONE;
 }
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart

@@ -6,7 +6,7 @@
 #include "repository/ICartRepository.h"
 #include "dto/OrderDto.h"
 
-namespace sudharshan::sudharshanmart {
+namespace srikanth::srikanthmart {
 
 /**
  * @brief Order Service managing checkout flow, mock payment validation,
@@ -59,4 +59,4 @@ private:
     std::shared_ptr<ICartRepository> cart_repo_;
 };
 
-} // namespace sudharshan::sudharshanmart
+} // namespace srikanth::srikanthmart
