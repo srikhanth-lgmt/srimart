@@ -29,8 +29,7 @@ void PostgresMigrationService::RunMigrations(const std::string& migrations_dir, 
         std::string version = file_path.filename().string();
         if (!IsMigrationApplied(version)) {
             spdlog::info("Applying database migration: {}", version);
-            ApplySqlFile(file_path.string());
-            RecordMigration(version);
+            ApplySqlFile(file_path.string(), version);
         } else {
             spdlog::debug("Migration {} already applied, skipping", version);
         }
@@ -42,8 +41,30 @@ void PostgresMigrationService::RunMigrations(const std::string& migrations_dir, 
     }
     if (!IsMigrationApplied(seed_version)) {
         spdlog::info("Applying seed data from: {}", seed_file);
-        ApplySqlFile(seed_file);
-        RecordMigration(seed_version);
+        ApplySqlFile(seed_file, seed_version);
+    }
+    VerifyRequiredTables();
+}
+
+void PostgresMigrationService::VerifyRequiredTables() {
+    std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
+    PGconn* conn = db_conn_.Get();
+    PgResult res(PQexec(conn,
+        "SELECT required.name FROM unnest(ARRAY["
+        "'schema_migrations','users','products','orders','order_items','cart_items','wishlist_items','reviews'"
+        "]) AS required(name) "
+        "LEFT JOIN pg_catalog.pg_tables t ON t.schemaname = 'public' AND t.tablename = required.name "
+        "WHERE t.tablename IS NULL ORDER BY required.name;"));
+    if (!res.IsOk()) {
+        throw std::runtime_error("Failed to verify required tables in PostgreSQL public schema");
+    }
+    if (PQntuples(res.Get()) > 0) {
+        std::string missing;
+        for (int row = 0; row < PQntuples(res.Get()); ++row) {
+            if (!missing.empty()) missing += ", ";
+            missing += PQgetvalue(res.Get(), row, 0);
+        }
+        throw std::runtime_error("PostgreSQL migration verification failed; missing public tables: " + missing);
     }
 }
 
@@ -71,18 +92,7 @@ bool PostgresMigrationService::IsMigrationApplied(const std::string& version) {
     return PQntuples(res.Get()) > 0;
 }
 
-void PostgresMigrationService::RecordMigration(const std::string& version) {
-    std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
-    PGconn* conn = db_conn_.Get();
-    PgResult res = PgExecParams(conn,
-        "INSERT INTO schema_migrations (version) VALUES ($1);",
-        { version });
-    if (!res.IsOk()) {
-        throw std::runtime_error("Failed to record migration " + version + ": " + PQerrorMessage(conn));
-    }
-}
-
-void PostgresMigrationService::ApplySqlFile(const std::string& file_path) {
+bool PostgresMigrationService::ApplySqlFile(const std::string& file_path, const std::string& version) {
     std::ifstream file(file_path);
     if (!file.is_open()) {
         throw std::runtime_error("Could not open required SQL file: " + file_path);
@@ -93,11 +103,33 @@ void PostgresMigrationService::ApplySqlFile(const std::string& file_path) {
 
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
     PGconn* conn = db_conn_.Get();
-
+    PgTransaction transaction(conn);
+    PgResult migration_lock(PQexec(conn, "SELECT pg_advisory_xact_lock(706245183);"));
+    if (!migration_lock.IsOk()) {
+        throw std::runtime_error("Could not acquire PostgreSQL migration lock");
+    }
+    // A concurrent instance may have applied this version while this runner
+    // waited for the advisory lock. Check again inside the transaction.
+    PgResult already_applied = PgExecParams(conn,
+        "SELECT 1 FROM schema_migrations WHERE version = $1;", { version });
+    if (!already_applied.IsOk()) {
+        throw std::runtime_error("Failed to recheck PostgreSQL migration status");
+    }
+    if (PQntuples(already_applied.Get()) > 0) {
+        transaction.Commit();
+        return false;
+    }
     PgResult res(PQexec(conn, sql_contents.c_str()));
     if (!res.IsOk()) {
         throw std::runtime_error("Error executing " + file_path + ": " + PQerrorMessage(conn));
     }
+    PgResult record = PgExecParams(conn,
+        "INSERT INTO schema_migrations (version) VALUES ($1);", { version });
+    if (!record.IsOk()) {
+        throw std::runtime_error("Failed to record PostgreSQL migration " + version);
+    }
+    transaction.Commit();
+    return true;
 }
 
 } // namespace sudharshan::sudharshanmart

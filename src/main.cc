@@ -48,8 +48,21 @@ int main(int argc, char* argv[]) {
     // 1. Select and initialize the database backend.
     //    DATABASE_URL (or POSTGRES_URL) => PostgreSQL (e.g. Neon);
     //    otherwise fall back to the local SQLite file at DB_PATH.
-    const std::string database_url = GetEnvironmentValue("DATABASE_URL", GetEnvironmentValue("POSTGRES_URL", ""));
+    std::string database_url = GetEnvironmentValue("DATABASE_URL", "");
+    if (database_url.empty()) database_url = GetEnvironmentValue("POSTGRES_URL", "");
     const bool use_postgres = IsPostgresUrl(database_url);
+    const bool require_postgres = GetEnvironmentValue("REQUIRE_POSTGRES", "false") == "true";
+    const std::string command = argc > 1 ? argv[1] : "";
+    if (argc > 2 || (!command.empty() && command != "--check-db" && command != "--migrate" &&
+                     command != "--seed-admin" && command != "--reset-admin-password")) {
+        throw std::runtime_error("Supported commands: --check-db, --migrate, --seed-admin, --reset-admin-password");
+    }
+    if (require_postgres && database_url.empty()) {
+        throw std::runtime_error("DATABASE_URL is required when REQUIRE_POSTGRES=true; refusing to fall back to SQLite");
+    }
+    if (!database_url.empty() && !use_postgres) {
+        throw std::runtime_error("DATABASE_URL/POSTGRES_URL must use the postgres:// or postgresql:// scheme");
+    }
 
     std::shared_ptr<IUserRepository> user_repo;
     std::shared_ptr<IProductRepository> product_repo;
@@ -61,6 +74,12 @@ int main(int argc, char* argv[]) {
         spdlog::info("DATABASE_URL detected; using PostgreSQL backend");
         PostgresConnection& pg_conn = PostgresConnection::GetInstance();
         pg_conn.Initialize(database_url);
+        if (command == "--check-db") {
+            const auto info = pg_conn.GetDatabaseInfo();
+            spdlog::info("Database diagnostic succeeded: backend=postgres host={} port={} database={} schema={} public_tables={}",
+                         info.host, info.port, info.database, info.schema, info.public_table_count);
+            return 0;
+        }
 
         // 2. Run PostgreSQL migrations and seed data.
         PostgresMigrationService pg_migrations(pg_conn);
@@ -81,6 +100,10 @@ int main(int argc, char* argv[]) {
             std::filesystem::create_directories(database_path.parent_path());
         }
         db_conn.Initialize(db_file);
+        if (command == "--check-db") {
+            spdlog::info("Database diagnostic succeeded: backend=sqlite path={}", db_file);
+            return 0;
+        }
 
         // 2. Run SQLite migrations and seed data.
         MigrationService migration_service(db_conn);
@@ -93,8 +116,13 @@ int main(int argc, char* argv[]) {
         review_repo = RepositoryFactory::CreateReviewRepository(db_conn);
     }
 
-    if (argc == 2 && (std::string(argv[1]) == "--seed-admin" || std::string(argv[1]) == "--reset-admin-password")) {
-        const bool reset_existing = std::string(argv[1]) == "--reset-admin-password";
+    if (command == "--migrate") {
+        spdlog::info("Database migrations completed and required schema verified");
+        return 0;
+    }
+
+    if (command == "--seed-admin" || command == "--reset-admin-password") {
+        const bool reset_existing = command == "--reset-admin-password";
         SeedAdminFromEnvironment(user_repo, reset_existing);
         spdlog::info("Administrator seed completed (no credentials logged)");
         return 0;

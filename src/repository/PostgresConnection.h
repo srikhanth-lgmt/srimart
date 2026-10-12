@@ -8,9 +8,18 @@
 #include <vector>
 #include <optional>
 #include <cstdint>
+#include <cstdlib>
 #include <spdlog/spdlog.h>
 
 namespace sudharshan::sudharshanmart {
+
+struct PostgresDatabaseInfo {
+    std::string host;
+    std::string port;
+    std::string database;
+    std::string schema;
+    int public_table_count{0};
+};
 
 /**
  * @brief RAII wrapper around a libpq result, releasing it on scope exit.
@@ -108,15 +117,29 @@ public:
             if (conn_) { PQfinish(conn_); conn_ = nullptr; }
             throw std::runtime_error("Failed to connect to PostgreSQL: " + err);
         }
-        spdlog::info("Database initialized with PostgreSQL host={} port={} db={}",
-                     PQhost(conn_) ? PQhost(conn_) : "?",
-                     PQport(conn_) ? PQport(conn_) : "?",
-                     PQdb(conn_) ? PQdb(conn_) : "?");
+        // Keep all application DDL and queries in the schema operators inspect
+        // in Neon Console, independent of a role-specific search_path.
+        PgResult search_path(PQexec(conn_, "SET search_path TO public;"));
+        if (!search_path.IsOk()) {
+            const std::string err = PQerrorMessage(conn_);
+            PQfinish(conn_);
+            conn_ = nullptr;
+            throw std::runtime_error("Failed to select PostgreSQL public schema: " + err);
+        }
+        const auto info = GetDatabaseInfoLocked();
+        spdlog::info("Database initialized: PostgreSQL host={} port={} database={} schema={} public_tables={}",
+                     info.host, info.port, info.database, info.schema, info.public_table_count);
     }
 
     [[nodiscard]] PGconn* Get() const { return conn_; }
     [[nodiscard]] std::mutex& GetMutex() { return mutex_; }
     [[nodiscard]] bool IsInitialized() const { return conn_ != nullptr; }
+
+    /** Return connection target details only; never includes credentials. */
+    PostgresDatabaseInfo GetDatabaseInfo() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return GetDatabaseInfoLocked();
+    }
 
     /** @brief Lightweight liveness probe for the health endpoint. */
     bool Ping() {
@@ -134,6 +157,25 @@ public:
     }
 
 private:
+    PostgresDatabaseInfo GetDatabaseInfoLocked() {
+        if (!conn_ || PQstatus(conn_) != CONNECTION_OK) {
+            throw std::runtime_error("PostgreSQL connection is not available");
+        }
+        PgResult res(PQexec(conn_,
+            "SELECT current_database(), current_schema(), "
+            "(SELECT COUNT(*)::int FROM pg_catalog.pg_tables WHERE schemaname = 'public');"));
+        if (!res.IsOk() || PQntuples(res.Get()) != 1) {
+            throw std::runtime_error("Could not read PostgreSQL database/schema diagnostics");
+        }
+        return {
+            PQhost(conn_) ? PQhost(conn_) : "?",
+            PQport(conn_) ? PQport(conn_) : "?",
+            PQgetvalue(res.Get(), 0, 0),
+            PQgetvalue(res.Get(), 0, 1),
+            static_cast<int>(std::strtol(PQgetvalue(res.Get(), 0, 2), nullptr, 10))
+        };
+    }
+
     PostgresConnection() = default;
     PGconn* conn_{nullptr};
     std::mutex mutex_;

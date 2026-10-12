@@ -9,6 +9,8 @@ services:
     environment:
       - PORT=8080
       - DB_PATH=/var/data/sudharshanmart.db
+      - DATABASE_URL=${DATABASE_URL:-}
+      - REQUIRE_POSTGRES=false
       - AI_CHATBOT_PROVIDER=mock
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
     volumes:

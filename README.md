@@ -115,6 +115,8 @@ Supported variables:
 | --- | --- | --- |
 | `PORT` | `8080` | HTTP listener port (binds to `0.0.0.0`) |
 | `DB_PATH` | `sudharshanmart.db` | SQLite database file. `.env.example` uses `./data/sudharshanmart.db`. |
+| `DATABASE_URL` | unset | Server-only PostgreSQL URI; use Neon for deployment. If set, invalid/non-PostgreSQL URLs fail startup. |
+| `REQUIRE_POSTGRES` | `false` | Set `true` to fail startup instead of silently falling back to SQLite. |
 | `AI_CHATBOT_PROVIDER` | `mock` | Chat provider: `mock` or `gemini` |
 | `GEMINI_API_KEY` | empty | Optional server-side key when Gemini is intentionally enabled |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | unset | Required only for explicit admin seed or password reset; never commit values |
@@ -123,15 +125,18 @@ Supported variables:
 Keep `.env` local; it is ignored by Git and excluded from Docker builds. Do not place secrets in frontend files.
 
 ### Render deployment
-Create a Docker Web Service from this repository. Set the start command to the image default and configure a **persistent disk mounted at `/var/data`**. Set these service environment variables:
+Create a Docker Web Service from this repository. The production image requires PostgreSQL (`REQUIRE_POSTGRES=true`) and runs the versioned migrations before listening. In the Render dashboard, copy the connection URI from the intended Neon project and branch (choose the production database, usually `neondb`) into the private `DATABASE_URL` environment variable. Do not include that URI in build arguments or frontend variables. Configure the following:
 
 | Key | Value |
 | --- | --- |
 | `PORT` | `8080` |
-| `DB_PATH` | `/var/data/sudharshanmart.db` |
+| `DATABASE_URL` | Neon connection URI (`postgresql://…`) for the intended Neon branch/database |
+| `REQUIRE_POSTGRES` | `true` |
 | `AI_CHATBOT_PROVIDER` | `mock` |
 
-Add `GEMINI_API_KEY` in Render's environment settings only if Gemini is intentionally enabled and set `AI_CHATBOT_PROVIDER=gemini`. Never upload `.env` to Render. The application applies pending migrations at startup and retains existing database records. Admin accounts are never created from public registration or seeded with a source-controlled password. Configure Render's health check path as `/api/v1/health`.
+The previous runtime silently chose SQLite whenever neither PostgreSQL URL variable was set. That lets the app appear to run while Neon remains empty. The production image now fails at startup when `DATABASE_URL` is missing, and it rejects other URL schemes instead of silently falling back. PostgreSQL connections also set `search_path` to `public`, so the migration target is explicit.
+
+`DATABASE_URL` must use `postgres://` or `postgresql://`; the server selects it instead of SQLite and explicitly sets PostgreSQL `search_path` to `public`. At startup it applies pending migrations transactionally under a PostgreSQL advisory lock and fails before serving if any required table is missing. Check `/api/v1/health` or run `/opt/sudharshanmart/bin/sudharshanmart --check-db` from Render Shell to see backend, database, schema, and table count without credentials. Run `/opt/sudharshanmart/bin/sudharshanmart --migrate` for a one-off migration; startup also runs migrations before accepting requests. The local `.env` in this workspace has no PostgreSQL URL, so it uses SQLite; Neon connectivity and live table creation cannot be confirmed until the Render secret is configured. Never upload `.env` to Render. Add `GEMINI_API_KEY` only if Gemini is intentionally enabled. Admin accounts are never created from public registration or seeded with source-controlled passwords.
 
 To seed the first admin, add `ADMIN_EMAIL` and `ADMIN_PASSWORD` as private service environment variables in Render, deploy, then use the service Shell:
 
@@ -139,14 +144,14 @@ To seed the first admin, add `ADMIN_EMAIL` and `ADMIN_PASSWORD` as private servi
 /opt/sudharshanmart/bin/sudharshanmart --seed-admin
 ```
 
-The command connects to the configured production `DATABASE_URL` or `DB_PATH`, applies pending migrations, and safely seeds the admin. Repeating it with the same existing admin credentials is safe. If an admin exists with a different password, it fails without changing privileges; explicitly use `--reset-admin-password` to rotate that account's password. It refuses to promote a buyer or seller. Remove `ADMIN_PASSWORD` from Render after the operation unless you are rotating credentials. For the legacy seeded admin row, confirm `ADMIN_EMAIL` matches that existing ADMIN account and use the explicit reset command. Existing data is retained.
+The command connects to the configured production `DATABASE_URL`, applies pending migrations, verifies the required schema, and safely seeds the admin. Repeating it with the same existing admin credentials is safe. If an admin exists with a different password, it fails without changing privileges; explicitly use `--reset-admin-password` to rotate that account's password. It refuses to promote a buyer or seller. Remove `ADMIN_PASSWORD` from Render after the operation unless you are rotating credentials. For the legacy seeded admin row, confirm `ADMIN_EMAIL` matches that existing ADMIN account and use the explicit reset command. Existing data is retained.
 
 For local Docker, run these commands from the project root (the PowerShell form works in Windows PowerShell):
 
 ```powershell
 docker build -t sudharshanmart .
 New-Item -ItemType Directory -Force data
-docker run --rm -p 8080:8080 -e PORT=8080 -e DB_PATH=/var/data/sudharshanmart.db -e AI_CHATBOT_PROVIDER=mock -v "${PWD}/data:/var/data" sudharshanmart
+docker run --rm -p 8080:8080 -e PORT=8080 -e REQUIRE_POSTGRES=false -e DB_PATH=/var/data/sudharshanmart.db -e AI_CHATBOT_PROVIDER=mock -v "${PWD}/data:/var/data" sudharshanmart
 ```
 
 Check `http://localhost:8080/api/v1/health` and `http://localhost:8080/` after startup. Run `docker run` again with the same `data` directory to confirm the database persists.

@@ -16,13 +16,13 @@ public:
 
     void RunMigrations(const std::string& migrations_dir = "db/postgres/migrations",
                       const std::string& seed_file = "db/postgres/seed.sql");
+    void VerifyRequiredTables();
 
 private:
     PostgresConnection& db_conn_;
     void EnsureTrackingTable();
     bool IsMigrationApplied(const std::string& version);
-    void RecordMigration(const std::string& version);
-    void ApplySqlFile(const std::string& file_path);
+    bool ApplySqlFile(const std::string& file_path, const std::string& version);
 };
 
 } // namespace sudharshan::sudharshanmart

@@ -103,11 +103,11 @@ RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \
     && mkdir -p /var/data \
     && chown -R appuser:appuser /opt/sudharshanmart /var/data
 
-# Runtime defaults; Render overrides PORT and (optionally) DB_PATH.
-# Set DATABASE_URL (e.g. a Neon postgresql:// URI) to switch to PostgreSQL;
-# when unset the service uses the local SQLite file at DB_PATH.
+# Runtime defaults; Render must provide DATABASE_URL for the Neon database.
+# Local Docker Compose explicitly overrides REQUIRE_POSTGRES to keep SQLite usable.
 ENV PORT=8080
 ENV DB_PATH=/var/data/sudharshanmart.db
+ENV REQUIRE_POSTGRES=true
 ENV AI_CHATBOT_PROVIDER=mock
 
 EXPOSE 8080
