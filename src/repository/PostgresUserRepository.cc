@@ -42,7 +42,7 @@ std::optional<User> PostgresUserRepository::FindByEmail(const std::string& email
     PGconn* conn = db_conn_.Get();
 
     PgResult res = PgExecParams(conn,
-        std::string("SELECT ") + kSelectColumns + " FROM users WHERE email = $1;",
+        std::string("SELECT ") + kSelectColumns + " FROM users WHERE lower(email) = lower($1);",
         { email });
     if (!res.IsOk()) {
         throw InternalServerException(std::string("Failed to query user: ") + PQerrorMessage(conn));
@@ -70,6 +70,14 @@ User PostgresUserRepository::CreateUser(const User& user) {
     User created = user;
     created.id = PgInt64(res.Get(), 0, 0);
     return created;
+}
+
+void PostgresUserRepository::UpdatePassword(int64_t id, const std::string& password_hash) {
+    std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
+    PGconn* conn = db_conn_.Get();
+    PgResult res = PgExecParams(conn, "UPDATE users SET password_hash = $1 WHERE id = $2 AND role = 'ADMIN';", {password_hash, std::to_string(id)});
+    if (!res.IsOk() || std::string(PQcmdTuples(res.Get())) != "1")
+        throw ConflictException("Administrator account changed during recovery; no password was updated");
 }
 
 std::vector<User> PostgresUserRepository::FindAll() {

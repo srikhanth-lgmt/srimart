@@ -12,6 +12,7 @@ public:
     std::optional<User> FindById(int64_t id) override;
     std::optional<User> FindByEmail(const std::string& email) override;
     User CreateUser(const User& user) override;
+    void UpdatePassword(int64_t id, const std::string& password_hash) override;
     std::vector<User> FindAll() override;
 
 private:

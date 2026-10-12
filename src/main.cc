@@ -12,6 +12,7 @@
 #include "service/MigrationService.h"
 #include "service/PostgresMigrationService.h"
 #include "service/AuthService.h"
+#include "service/AdminSeedService.h"
 #include "service/ProductService.h"
 #include "service/CartService.h"
 #include "service/OrderService.h"
@@ -92,6 +93,13 @@ int main(int argc, char* argv[]) {
         review_repo = RepositoryFactory::CreateReviewRepository(db_conn);
     }
 
+    if (argc == 2 && (std::string(argv[1]) == "--seed-admin" || std::string(argv[1]) == "--reset-admin-password")) {
+        const bool reset_existing = std::string(argv[1]) == "--reset-admin-password";
+        SeedAdminFromEnvironment(user_repo, reset_existing);
+        spdlog::info("Administrator seed completed (no credentials logged)");
+        return 0;
+    }
+
     // 4. Instantiate Services (Pure C++ business rules, constructor injected)
     auto auth_service = std::make_shared<AuthService>(user_repo);
     auto product_service = std::make_shared<ProductService>(product_repo);
@@ -125,7 +133,7 @@ int main(int argc, char* argv[]) {
     drogon::app()
         .addListener("0.0.0.0", port)
         .setDocumentRoot((app_root / "public").string())
-        .enableSession(3600) // Explicit 1-hour idle session timeout
+        .enableSession(3600, drogon::Cookie::SameSite::kLax, "SUDHARMART_SESSION") // 1-hour idle, same-site browser session
         .setClientMaxBodySize(10 * 1024 * 1024);
 
     spdlog::info("SudharshanMart is ready! Serving web frontend and API at http://localhost:{}", port);

@@ -2,6 +2,7 @@
 #include "util/ValidationUtil.h"
 #include "exception/AppException.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 
 namespace sudharshan::sudharshanmart {
 
@@ -89,13 +90,16 @@ std::vector<OrderResponseDto> OrderService::GetAllOrders() {
     return dtos;
 }
 
-OrderResponseDto OrderService::UpdateOrderStatus(int64_t order_id, const UpdateOrderStatusRequestDto& req) {
+OrderResponseDto OrderService::UpdateOrderStatus(int64_t order_id, int64_t requester_id, bool is_admin, const UpdateOrderStatusRequestDto& req) {
     ValidationUtil::ValidateNonEmpty(req.status, "status", "Status cannot be empty");
 
     auto order_opt = order_repo_->FindById(order_id);
     if (!order_opt.has_value()) {
         throw NotFoundException("Order not found");
     }
+    const auto& order = order_opt.value();
+    const bool owns_item = std::any_of(order.items.begin(), order.items.end(), [requester_id](const auto& item) { return item.seller_id == requester_id; });
+    if (!is_admin && !owns_item) throw ForbiddenException("You are not authorized to update this order");
 
     OrderStatus new_status = StringToOrderStatus(req.status);
     order_repo_->UpdateOrderStatus(order_id, new_status);

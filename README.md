@@ -73,7 +73,7 @@ sudharshan/
 ## 🎯 Features Implemented
 
 ### Mandatory Core Features (F1 – F8)
-- [x] **F1: User Registration & Login**: Distinct roles (`BUYER`, `SELLER`, `ADMIN`). Admin account seeded directly via migration for Sudharshan. Argon2id password hashing via libsodium.
+- [x] **F1: User Registration & Login**: Distinct roles (`BUYER`, `SELLER`, `ADMIN`). Buyer and seller self-registration; admin creation uses the explicit environment-backed CLI. Argon2id password hashing via libsodium.
 - [x] **F2: Seller Management**: Sellers create, edit, and delete product listings (`name`, `description`, `price_cents`, `stock_qty`, `category`, `image_url`).
 - [x] **F3: Buyer Discovery**: Keyword search and category filtering with instant dynamic re-rendering.
 - [x] **F4: Shopping Cart**: Add to cart, quantity increments/decrements, item removal, and live running total calculations.
@@ -117,6 +117,8 @@ Supported variables:
 | `DB_PATH` | `sudharshanmart.db` | SQLite database file. `.env.example` uses `./data/sudharshanmart.db`. |
 | `AI_CHATBOT_PROVIDER` | `mock` | Chat provider: `mock` or `gemini` |
 | `GEMINI_API_KEY` | empty | Optional server-side key when Gemini is intentionally enabled |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | unset | Required only for explicit admin seed or password reset; never commit values |
+| `ADMIN_NAME` | SudharshanMart Administrator | Optional display name for a newly seeded admin |
 
 Keep `.env` local; it is ignored by Git and excluded from Docker builds. Do not place secrets in frontend files.
 
@@ -129,7 +131,15 @@ Create a Docker Web Service from this repository. Set the start command to the i
 | `DB_PATH` | `/var/data/sudharshanmart.db` |
 | `AI_CHATBOT_PROVIDER` | `mock` |
 
-Add `GEMINI_API_KEY` in Render's environment settings only if Gemini is intentionally enabled and set `AI_CHATBOT_PROVIDER=gemini`. Never upload `.env` to Render. The application applies pending migrations and seeds only once on first database initialization; subsequent starts retain the persistent database. Configure Render's health check path as `/api/v1/health`.
+Add `GEMINI_API_KEY` in Render's environment settings only if Gemini is intentionally enabled and set `AI_CHATBOT_PROVIDER=gemini`. Never upload `.env` to Render. The application applies pending migrations at startup and retains existing database records. Admin accounts are never created from public registration or seeded with a source-controlled password. Configure Render's health check path as `/api/v1/health`.
+
+To seed the first admin, add `ADMIN_EMAIL` and `ADMIN_PASSWORD` as private service environment variables in Render, deploy, then use the service Shell:
+
+```sh
+/opt/sudharshanmart/bin/sudharshanmart --seed-admin
+```
+
+The command connects to the configured production `DATABASE_URL` or `DB_PATH`, applies pending migrations, and safely seeds the admin. Repeating it with the same existing admin credentials is safe. If an admin exists with a different password, it fails without changing privileges; explicitly use `--reset-admin-password` to rotate that account's password. It refuses to promote a buyer or seller. Remove `ADMIN_PASSWORD` from Render after the operation unless you are rotating credentials. For the legacy seeded admin row, confirm `ADMIN_EMAIL` matches that existing ADMIN account and use the explicit reset command. Existing data is retained.
 
 For local Docker, run these commands from the project root (the PowerShell form works in Windows PowerShell):
 

@@ -46,7 +46,7 @@ void ProductController::CreateProduct(const drogon::HttpRequestPtr& req,
             throw UnauthorizedException("Session required to create products");
         }
         std::string role = GetSessionUserRole(req);
-        if (role != "SELLER" && role != "ADMIN") {
+        if (role != "SELLER") {
             throw ForbiddenException("Only sellers can list products");
         }
 
@@ -76,6 +76,7 @@ void ProductController::UpdateProduct(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "SELLER") throw ForbiddenException("Seller account required");
         auto json = JsonUtil::ParseRequestBody(req);
         UpdateProductRequestDto dto;
         dto.name = json.value("name", "");
@@ -103,6 +104,7 @@ void ProductController::DeleteProduct(const drogon::HttpRequestPtr& req,
             throw UnauthorizedException("Session required");
         }
         std::string role = GetSessionUserRole(req);
+        if (role != "SELLER" && role != "ADMIN") throw ForbiddenException("Seller account required");
         bool is_admin = (role == "ADMIN");
 
         product_service_->DeleteProduct(user_id_opt.value(), is_admin, product_id);
@@ -123,6 +125,7 @@ void ProductController::GetSellerProducts(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "SELLER") throw ForbiddenException("Seller account required");
         auto products = product_service_->GetProductsBySeller(user_id_opt.value());
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& p : products) {

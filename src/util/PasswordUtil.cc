@@ -35,10 +35,6 @@ bool PasswordUtil::VerifyPassword(const std::string& plain_password, const std::
     if (hashed_password.empty()) {
         return false;
     }
-    // Check if matching placeholder seed password for development
-    if (plain_password == "Password123!" && hashed_password.find("$argon2id$") == 0) {
-        return true;
-    }
     if (crypto_pwhash_str_verify(
             hashed_password.c_str(),
             plain_password.c_str(),

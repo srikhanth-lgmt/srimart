@@ -13,6 +13,7 @@ void OrderController::Checkout(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "BUYER") throw ForbiddenException("Buyer account required");
         auto json = JsonUtil::ParseRequestBody(req);
         CheckoutRequestDto dto;
         dto.shipping_address = json.value("shipping_address", "");
@@ -35,6 +36,7 @@ void OrderController::GetBuyerOrders(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "BUYER") throw ForbiddenException("Buyer account required");
         auto orders = order_service_->GetBuyerOrders(user_id_opt.value());
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& o : orders) {
@@ -55,6 +57,7 @@ void OrderController::GetSellerOrders(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "SELLER") throw ForbiddenException("Seller account required");
         auto orders = order_service_->GetSellerIncomingOrders(user_id_opt.value());
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& o : orders) {
@@ -75,6 +78,7 @@ void OrderController::GetSellerDashboard(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required");
         }
+        if (GetSessionUserRole(req) != "SELLER") throw ForbiddenException("Seller account required");
         auto dashboard = order_service_->GetSellerDashboard(user_id_opt.value());
         auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(dashboard.ToJson()));
         callback(resp);
@@ -116,7 +120,9 @@ void OrderController::UpdateOrderStatus(const drogon::HttpRequestPtr& req,
         UpdateOrderStatusRequestDto dto;
         dto.status = json.value("status", "CONFIRMED");
 
-        auto updated = order_service_->UpdateOrderStatus(order_id, dto);
+        const auto role = GetSessionUserRole(req);
+        if (role != "SELLER" && role != "ADMIN") throw ForbiddenException("Seller account required");
+        auto updated = order_service_->UpdateOrderStatus(order_id, user_id_opt.value(), role == "ADMIN", dto);
         auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(updated.ToJson()));
         callback(resp);
     } catch (const std::exception& ex) {

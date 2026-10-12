@@ -24,12 +24,6 @@ protected:
                 return session->get<int64_t>("user_id");
             } catch (...) {}
         }
-        std::string param = req->getParameter("session_user_id");
-        if (!param.empty()) {
-            try {
-                return std::stoll(param);
-            } catch (...) {}
-        }
         return std::nullopt;
     }
 

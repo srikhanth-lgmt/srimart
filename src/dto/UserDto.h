@@ -14,6 +14,7 @@ struct RegisterUserRequestDto {
     std::string email;
     std::string password;
     std::string role; // BUYER or SELLER
+    bool accepted_terms{false};
 };
 
 /**

@@ -31,6 +31,8 @@ public:
      */
     virtual User CreateUser(const User& user) = 0;
 
+    virtual void UpdatePassword(int64_t id, const std::string& password_hash) = 0;
+
     /**
      * @brief List all users for administration.
      */

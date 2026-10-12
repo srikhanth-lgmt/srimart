@@ -6,9 +6,8 @@
 
 const app = {
     state: {
-        activeRole: 'BUYER',
-        activeUserId: 3, // Default: Akash Buyer
-        activeToken: 'user_3',
+        activeRole: null,
+        activeUser: null,
         products: [],
         currentCategory: '',
         searchQuery: '',
@@ -17,19 +16,84 @@ const app = {
         chatOpen: false
     },
 
-    // User Identities mapped from seed.sql
-    users: {
-        'BUYER': { id: 3, name: 'Akash Buyer', email: 'buyer@sudharshanmart.com', token: 'user_3' },
-        'SELLER': { id: 2, name: 'TechNova Seller', email: 'seller@sudharshanmart.com', token: 'user_2' },
-        'ADMIN': { id: 1, name: 'Sudharshan (Admin)', email: 'admin@sudharshanmart.com', token: 'user_1' }
-    },
-
     init: async function() {
         console.log("Initializing SudharshanMart App...");
         this.checkHealth();
+        await this.refreshSession();
         await this.loadProducts();
         await this.loadCart();
         this.updateCartBadge();
+    },
+
+    refreshSession: async function() {
+        try {
+            const response = await fetch('/api/v1/auth/me', { credentials: 'same-origin' });
+            const json = await response.json();
+            this.setCurrentUser(json.success ? json.data : null);
+        } catch (_) { this.setCurrentUser(null); }
+    },
+
+    setCurrentUser: function(user) {
+        this.state.activeUser = user;
+        this.state.activeRole = user?.role || null;
+        document.getElementById('accountLabel').textContent = user ? `${user.name} · ${user.role}` : 'Browsing as guest';
+        document.getElementById('authButton').hidden = !!user;
+        document.getElementById('logoutButton').hidden = !user;
+        document.getElementById('tabSeller').hidden = user?.role !== 'SELLER';
+        document.getElementById('tabAdmin').hidden = user?.role !== 'ADMIN';
+        document.getElementById('tabOrders').hidden = user?.role !== 'BUYER';
+    },
+
+    openAuth: function() { this.showAuthForm('login'); this.openModal('authModal'); },
+    togglePassword: function(id) {
+        const input = document.getElementById(id);
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+        input.nextElementSibling.textContent = input.type === 'password' ? 'Show password' : 'Hide password';
+    },
+    showAuthForm: function(which) {
+        document.getElementById('loginForm').hidden = which !== 'login';
+        document.getElementById('registerForm').hidden = which !== 'register';
+        document.getElementById('authTitle').textContent = which === 'login' ? 'Welcome back' : 'Create your account';
+    },
+    login: async function(event) {
+        event.preventDefault();
+        const button = document.getElementById('loginSubmit');
+        const error = document.getElementById('loginError');
+        button.disabled = true; button.textContent = 'Signing in…'; error.textContent = '';
+        try {
+            const response = await fetch('/api/v1/auth/login', { method: 'POST', credentials: 'same-origin', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value}) });
+            const json = await response.json();
+            if (!response.ok || !json.success) throw new Error(json.error?.message || 'Unable to sign in. Check your details.');
+            this.setCurrentUser(json.data); this.closeModal('authModal'); await this.loadCart();
+            const view = json.data.role === 'ADMIN' ? 'admin' : json.data.role === 'SELLER' ? 'seller' : 'catalog';
+            this.navigate(view); this.showToast('Signed in successfully', 'success');
+        } catch (e) { error.textContent = e.message; }
+        finally { button.disabled = false; button.textContent = 'Log in'; }
+    },
+    register: async function(event) {
+        event.preventDefault();
+        const password = document.getElementById('registerPassword').value;
+        if (password !== document.getElementById('registerConfirmPassword').value) { document.getElementById('registerError').textContent = 'Passwords do not match.'; return; }
+        if (!document.getElementById('acceptTerms').checked) { document.getElementById('registerError').textContent = 'Please accept the terms and conditions.'; return; }
+        if (password.length < 8) { document.getElementById('registerError').textContent = 'Use a password with at least 8 characters.'; return; }
+        const button = document.getElementById('registerSubmit');
+        const error = document.getElementById('registerError');
+        button.disabled = true; button.textContent = 'Creating account…'; error.textContent = '';
+        try {
+            const response = await fetch('/api/v1/auth/register', { method: 'POST', credentials: 'same-origin', headers: {'Content-Type':'application/json'}, body: JSON.stringify({name: document.getElementById('registerName').value, email: document.getElementById('registerEmail').value, password, role: document.getElementById('registerRole').value, accepted_terms: document.getElementById('acceptTerms').checked}) });
+            const json = await response.json();
+            if (!response.ok || !json.success) throw new Error(json.error?.message || 'Unable to create account.');
+            this.showAuthForm('login'); document.getElementById('loginEmail').value = json.data.email;
+            error.textContent = ''; this.showToast('Account created. Please log in.', 'success');
+            document.getElementById('loginError').textContent = 'Your account is ready. Please log in.';
+        } catch (e) { error.textContent = e.message; }
+        finally { button.disabled = false; button.textContent = 'Create account'; }
+    },
+    logout: async function() {
+        await fetch('/api/v1/auth/logout', {method:'POST', credentials:'same-origin'});
+        this.setCurrentUser(null); this.state.cart = {items:[], total_amount_cents:0, formatted_total:'₹0.00', total_items_count:0};
+        this.renderCart(); this.updateCartBadge(); this.navigate('catalog'); this.showToast('Signed out', 'success');
     },
 
     checkHealth: async function() {
@@ -45,25 +109,13 @@ const app = {
         }
     },
 
-    switchRole: function(role) {
-        this.state.activeRole = role;
-        const u = this.users[role];
-        if (u) {
-            this.state.activeUserId = u.id;
-            this.state.activeToken = u.token;
-        }
-
-        this.showToast(`Switched active role to: ${role} (${u ? u.name : ''})`, 'success');
-
-        // Automatically navigate to corresponding role view
-        if (role === 'SELLER') this.navigate('seller');
-        else if (role === 'ADMIN') this.navigate('admin');
-        else this.navigate('catalog');
-
-        this.loadCart();
-    },
-
     navigate: function(viewName) {
+        const allowed = {seller: 'SELLER', admin: 'ADMIN', orders: 'BUYER'};
+        if (allowed[viewName] && this.state.activeRole !== allowed[viewName]) {
+            this.showToast('Please sign in with an account that has access.', 'error');
+            if (!this.state.activeUser) this.openAuth();
+            return;
+        }
         // Update nav tabs
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         if (viewName === 'catalog') document.getElementById('tabCatalog')?.classList.add('active');
@@ -240,7 +292,6 @@ const app = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({ rating, comment })
             });
@@ -270,7 +321,7 @@ const app = {
     loadCart: async function() {
         try {
             const res = await fetch('/api/v1/cart', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -289,7 +340,6 @@ const app = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({ product_id: productId, quantity: 1 })
             });
@@ -313,7 +363,6 @@ const app = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({ quantity: qty })
             });
@@ -332,7 +381,7 @@ const app = {
         try {
             const res = await fetch(`/api/v1/cart/items/${productId}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -416,7 +465,6 @@ const app = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({
                     shipping_address: address,
@@ -448,7 +496,7 @@ const app = {
 
         try {
             const res = await fetch('/api/v1/orders/buyer', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -503,7 +551,7 @@ const app = {
         // 1. Load Seller Dashboard KPIs
         try {
             const res = await fetch('/api/v1/orders/seller/dashboard', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -517,7 +565,7 @@ const app = {
         // 2. Load Seller Products
         try {
             const res = await fetch('/api/v1/products/seller/mine', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -548,7 +596,7 @@ const app = {
         // 3. Load Incoming Orders for Seller
         try {
             const res = await fetch('/api/v1/orders/seller', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -584,7 +632,6 @@ const app = {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({ status: nextStatus })
             });
@@ -653,7 +700,6 @@ const app = {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify(payload)
             });
@@ -676,7 +722,7 @@ const app = {
         try {
             const res = await fetch(`/api/v1/products/${productId}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -698,7 +744,7 @@ const app = {
         // 1. Users list
         try {
             const res = await fetch('/api/v1/admin/users', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -721,7 +767,7 @@ const app = {
         // 2. All orders
         try {
             const res = await fetch('/api/v1/admin/orders', {
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -766,7 +812,7 @@ const app = {
         try {
             const res = await fetch(`/api/v1/admin/products/${productId}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${this.state.activeToken}` }
+                headers: { }
             });
             const json = await res.json();
             if (json.success) {
@@ -818,7 +864,6 @@ const app = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.state.activeToken}`
                 },
                 body: JSON.stringify({ message })
             });

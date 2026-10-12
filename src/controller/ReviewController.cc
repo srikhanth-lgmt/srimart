@@ -31,6 +31,7 @@ void ReviewController::AddReview(const drogon::HttpRequestPtr& req,
         if (!user_id_opt.has_value()) {
             throw UnauthorizedException("Session required to submit a review");
         }
+        if (GetSessionUserRole(req) != "BUYER") throw ForbiddenException("Buyer account required");
         auto json = JsonUtil::ParseRequestBody(req);
         CreateReviewRequestDto dto;
         dto.rating = json.value("rating", 5);

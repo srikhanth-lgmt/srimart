@@ -1,13 +1,10 @@
 -- SudharshanMart Seed Data
--- Owner / Super Admin: Sudharshan (admin@sudharshanmart.com)
--- Initial seed passwords hashed or placeholder Argon2 hashes (default password: Password123!)
--- Hash for 'Password123!' with Argon2id
+-- Optional marketplace sample records. Admins must be seeded with environment credentials.
 
 INSERT OR IGNORE INTO users (id, name, email, password_hash, role, created_at) VALUES
-(1, 'Sudharshan (Admin)', 'admin@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'ADMIN', CURRENT_TIMESTAMP),
-(2, 'TechNova Seller', 'seller@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'SELLER', CURRENT_TIMESTAMP),
-(3, 'Akash Buyer', 'buyer@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'BUYER', CURRENT_TIMESTAMP),
-(4, 'Priya Electronics', 'priya@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'SELLER', CURRENT_TIMESTAMP);
+(2, 'TechNova Seller', 'seller@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP),
+(3, 'Akash Buyer', 'buyer@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'BUYER', CURRENT_TIMESTAMP),
+(4, 'Priya Electronics', 'priya@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP);
 
 -- Sample Marketplace Products (Prices in minor units / cents)
 INSERT OR IGNORE INTO products (id, seller_id, name, description, price_cents, stock_qty, category, image_url, created_at) VALUES

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <regex>
+#include <cctype>
 #include "exception/AppException.h"
 
 namespace sudharshan::sudharshanmart {
@@ -19,6 +20,15 @@ public:
         if (password.length() < 8) {
             throw ValidationException("Password must be at least 8 characters long", "password");
         }
+        bool lower = false, upper = false, digit = false, symbol = false;
+        for (unsigned char c : password) {
+            lower = lower || (c >= 'a' && c <= 'z');
+            upper = upper || (c >= 'A' && c <= 'Z');
+            digit = digit || (c >= '0' && c <= '9');
+            symbol = symbol || !(std::isalnum(c));
+        }
+        const int categories = static_cast<int>(lower) + static_cast<int>(upper) + static_cast<int>(digit) + static_cast<int>(symbol);
+        if (categories < 3) throw ValidationException("Password must include at least three of lowercase, uppercase, number, and symbol", "password");
     }
 
     static void ValidateNonEmpty(const std::string& str, const std::string& field_name, const std::string& message) {

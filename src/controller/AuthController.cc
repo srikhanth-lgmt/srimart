@@ -15,6 +15,7 @@ void AuthController::Register(const drogon::HttpRequestPtr& req,
         dto.email = json.value("email", "");
         dto.password = json.value("password", "");
         dto.role = json.value("role", "BUYER");
+        dto.accepted_terms = json.value("accepted_terms", false);
 
         UserResponseDto created = auth_service_->Register(dto);
         auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(created.ToJson()), drogon::k201Created);
@@ -39,15 +40,13 @@ void AuthController::Login(const drogon::HttpRequestPtr& req,
         auto session = req->session();
         if (session) {
             session->clear();
+            session->changeSessionIdToClient();
             session->insert("user_id", user.id);
             session->insert("user_email", user.email);
             session->insert("user_role", user.role);
         }
 
-        auto user_json = user.ToJson();
-        user_json["token"] = "user_" + std::to_string(user.id); // Convenience client token
-
-        auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(user_json));
+        auto resp = ApiResponse<>::ToHttpResponse(ApiResponse<>::Success(user.ToJson()));
         callback(resp);
     } catch (const std::exception& ex) {
         callback(GlobalErrorHandler::HandleException(ex, request_id));
@@ -59,6 +58,7 @@ void AuthController::Logout(const drogon::HttpRequestPtr& req,
     auto session = req->session();
     if (session) {
         session->clear();
+        session->changeSessionIdToClient();
     }
     nlohmann::json data;
     data["message"] = "Logged out successfully";

@@ -28,6 +28,10 @@ public:
         return u;
     }
 
+    void UpdatePassword(int64_t id, const std::string& hash) override {
+        for (auto& user : users_) if (user.id == id) user.password_hash = hash;
+    }
+
     std::vector<User> FindAll() override {
         return users_;
     }
@@ -46,6 +50,7 @@ TEST(AuthServiceTest, RegistersNewBuyerSuccessfully) {
     req.email = "sudharshan.buyer@test.com";
     req.password = "StrongPass123!";
     req.role = "BUYER";
+    req.accepted_terms = true;
 
     UserResponseDto resp = auth_service.Register(req);
     EXPECT_EQ(resp.name, "Sudharshan Buyer");
@@ -63,6 +68,7 @@ TEST(AuthServiceTest, PreventsDuplicateEmailRegistration) {
     req.email = "duplicate@test.com";
     req.password = "StrongPass123!";
     req.role = "BUYER";
+    req.accepted_terms = true;
 
     auth_service.Register(req);
     EXPECT_THROW(auth_service.Register(req), ConflictException);
@@ -77,6 +83,25 @@ TEST(AuthServiceTest, RejectsInvalidEmailFormat) {
     req.email = "bad-email";
     req.password = "StrongPass123!";
     req.role = "BUYER";
+    req.accepted_terms = true;
 
+    EXPECT_THROW(auth_service.Register(req), ValidationException);
+}
+
+TEST(AuthServiceTest, RegistersSellerAndNormalizesEmail) {
+    auto fake_repo = std::make_shared<FakeUserRepository>();
+    AuthService auth_service(fake_repo);
+    RegisterUserRequestDto req;
+    req.name = "Seller"; req.email = "  Seller@Example.com "; req.password = "StrongPass123!"; req.role = "SELLER"; req.accepted_terms = true;
+    const auto response = auth_service.Register(req);
+    EXPECT_EQ(response.email, "seller@example.com");
+    EXPECT_EQ(response.role, "SELLER");
+}
+
+TEST(AuthServiceTest, RejectsAdminPublicRegistration) {
+    auto fake_repo = std::make_shared<FakeUserRepository>();
+    AuthService auth_service(fake_repo);
+    RegisterUserRequestDto req;
+    req.name = "Admin"; req.email = "admin@example.com"; req.password = "StrongPass123!"; req.role = "ADMIN"; req.accepted_terms = true;
     EXPECT_THROW(auth_service.Register(req), ValidationException);
 }

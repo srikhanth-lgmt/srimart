@@ -33,7 +33,7 @@ std::optional<User> SqliteUserRepository::FindByEmail(const std::string& email) 
     std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
     sqlite3* db = db_conn_.GetDb();
 
-    const char* sql = "SELECT id, name, email, password_hash, role, created_at FROM users WHERE email = ?;";
+    const char* sql = "SELECT id, name, email, password_hash, role, created_at FROM users WHERE lower(email) = lower(?);";
     sqlite3_stmt* stmt_raw = nullptr;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt_raw, nullptr) != SQLITE_OK) {
         throw InternalServerException(std::string("Failed to prepare statement: ") + sqlite3_errmsg(db));
@@ -81,6 +81,19 @@ User SqliteUserRepository::CreateUser(const User& user) {
     User created = user;
     created.id = sqlite3_last_insert_rowid(db);
     return created;
+}
+
+void SqliteUserRepository::UpdatePassword(int64_t id, const std::string& password_hash) {
+    std::lock_guard<std::mutex> lock(db_conn_.GetMutex());
+    sqlite3* db = db_conn_.GetDb();
+    sqlite3_stmt* stmt = nullptr;
+    if (sqlite3_prepare_v2(db, "UPDATE users SET password_hash = ? WHERE id = ? AND role = 'ADMIN';", -1, &stmt, nullptr) != SQLITE_OK)
+        throw InternalServerException("Failed to prepare administrator password update");
+    StatementRAII statement(stmt);
+    sqlite3_bind_text(statement.Get(), 1, password_hash.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int64(statement.Get(), 2, id);
+    if (sqlite3_step(statement.Get()) != SQLITE_DONE || sqlite3_changes(db) != 1)
+        throw ConflictException("Administrator account changed during recovery; no password was updated");
 }
 
 std::vector<User> SqliteUserRepository::FindAll() {

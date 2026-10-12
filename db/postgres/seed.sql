@@ -1,12 +1,10 @@
 -- SudharshanMart Seed Data (PostgreSQL)
--- Owner / Super Admin: Sudharshan (admin@sudharshanmart.com)
--- Default password: Password123!
+-- Optional marketplace sample data only. Administrator accounts are created with --seed-admin.
 
 INSERT INTO users (id, name, email, password_hash, role, created_at) VALUES
-(1, 'Sudharshan (Admin)', 'admin@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'ADMIN', CURRENT_TIMESTAMP),
-(2, 'TechNova Seller', 'seller@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'SELLER', CURRENT_TIMESTAMP),
-(3, 'Akash Buyer', 'buyer@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'BUYER', CURRENT_TIMESTAMP),
-(4, 'Priya Electronics', 'priya@sudharshanmart.com', '$argon2id$v=19$m=65536,t=2,p=1$somesaltvaluesome$aJ9v90xVj5Hq1y8E8Q8+xY4h8e9f4g2c1b3d5e7f8a9', 'SELLER', CURRENT_TIMESTAMP)
+(2, 'TechNova Seller', 'seller@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP),
+(3, 'Akash Buyer', 'buyer@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'BUYER', CURRENT_TIMESTAMP),
+(4, 'Priya Electronics', 'priya@sudharshanmart.com', '!DISABLED_SAMPLE_ACCOUNT!', 'SELLER', CURRENT_TIMESTAMP)
 ON CONFLICT DO NOTHING;
 
 -- Sample Marketplace Products (Prices in minor units / cents)

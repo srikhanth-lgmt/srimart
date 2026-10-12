@@ -47,7 +47,7 @@ public:
     /**
      * @brief Advance order status workflow (PENDING -> CONFIRMED -> SHIPPED -> DELIVERED).
      */
-    OrderResponseDto UpdateOrderStatus(int64_t order_id, const UpdateOrderStatusRequestDto& req);
+    OrderResponseDto UpdateOrderStatus(int64_t order_id, int64_t requester_id, bool is_admin, const UpdateOrderStatusRequestDto& req);
 
     /**
      * @brief Compute seller sales metrics (total revenue and count).
